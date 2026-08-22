@@ -1,5 +1,5 @@
 export const SITE_NAME = "거상 정부지원 마케팅센터";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://support.geosang.co.kr";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://geosang-government-support-center.geosangbruce.chatgpt.site";
 export const OFFICIAL_NOTICE = "지원 대상, 지원 내용, 신청 기간은 공고에 따라 변경될 수 있으므로 반드시 해당 연도의 공식 공고를 확인하시기 바랍니다.";
 
 export type Program = {
