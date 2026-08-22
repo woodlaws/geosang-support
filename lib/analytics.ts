@@ -26,3 +26,7 @@ export function trackInsightEvent(name:InsightEventName,parameters:InsightEventP
 export type ContactEventName="contact_view"|"inquiry_type_select"|"contact_form_start"|"contact_step_complete"|"contact_form_abandon"|"contact_form_review"|"contact_form_submit"|"contact_form_success"|"contact_form_error"|"direct_phone_click"|"direct_email_click"|"direct_kakao_click"|"contact_related_page_click";
 export type ContactEventParameters={inquiry_type?:string;business_status?:string;application_status?:string;selected_program?:string;selected_services?:string;budget_range?:string;timeline?:string;step?:number;source_page?:string;cta_location?:string};
 export function trackContactEvent(name:ContactEventName,parameters:ContactEventParameters={}){if(typeof window==="undefined"||typeof window.gtag!=="function")return;window.gtag("event",name,parameters)}
+
+export type ExpertEventName="experts_view"|"lifecycle_stage_select"|"expert_category_select"|"expert_connect_click"|"expert_form_start"|"expert_form_submit"|"expert_form_success"|"expert_form_error";
+export type ExpertEventParameters={expert_category?:string;lifecycle_stage?:string;source_page?:string;cta_location?:string;error_type?:string};
+export function trackExpertEvent(name:ExpertEventName,parameters:ExpertEventParameters={}){if(typeof window==="undefined"||typeof window.gtag!=="function")return;window.gtag("event",name,parameters)}

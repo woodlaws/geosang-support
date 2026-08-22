@@ -91,6 +91,7 @@ export const navItems = [
   ["무료 자가진단", "/diagnosis"],
   ["선정 후 실행", "/after-selection"],
   ["실행 사례", "/cases"],
+  ["전문가 네트워크", "/experts"],
   ["자료실", "/insights"],
   ["상담 신청", "/contact"],
 ] as const;
