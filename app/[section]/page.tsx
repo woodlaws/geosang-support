@@ -9,6 +9,8 @@ import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { HopeReturnPage as EnhancedHopeReturnPage } from "@/components/HopeReturnPage";
 import { DiagnosisLandingPage as EnhancedDiagnosisPage } from "@/components/DiagnosisLandingPage";
+import { AfterSelectionPage as EnhancedAfterSelectionPage } from "@/components/AfterSelectionPage";
+import { afterSelectionFaqs } from "@/data/after-selection";
 import { OfficialNotice } from "@/components/Notice";
 import { cases, experts, faqs, insights, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
 import { breadcrumbJson, faqJson, makeMetadata } from "@/lib/seo";
@@ -19,7 +21,7 @@ const meta: Record<string, [string, string]> = {
   programs: ["지원사업 찾기", "소상공인의 업종과 사업 단계에 맞는 정부지원사업 분야를 살펴보고 무료 자가진단과 전문가 연결을 신청하세요."],
   "hope-return": ["희망리턴패키지 신청부터 선정 후 마케팅까지", "희망리턴패키지 지원 대상, 폐업지원, 재취업, 재창업과 신청 준비 절차를 확인하고, 선정 이후 홈페이지·콘텐츠·광고 실행까지 상담받으세요."],
   "before-selection": ["정부지원사업 선정 전 준비", "공고 확인, 사업 현황 진단, 사업계획서 마케팅 항목과 실행 가능 예산을 차분히 준비하는 방법을 안내합니다."],
-  "after-selection": ["정부지원사업 선정 후 마케팅 실행", "선정 이후 협약서·예산·공급업체·홈페이지·콘텐츠·광고·증빙·결과보고까지 실행 상담을 신청하세요."],
+  "after-selection": ["정부지원사업 선정 후 마케팅 실행·수행업체", "정부지원사업에 선정되셨나요? 협약과 집행 항목을 확인하고 홈페이지, 블로그, SNS, 광고, AEO·GEO와 결과보고 자료까지 한 번에 준비하세요."],
   services: ["정부지원사업 마케팅 서비스", "브랜드 전략, 홈페이지, 블로그, 스마트플레이스, SNS, 숏폼, 광고, AEO·GEO와 결과보고 서비스를 제공합니다."],
   cases: ["마케팅 실행 사례", "소상공인 업종과 지원사업 상황별 홈페이지·콘텐츠·SNS·광고 실행 설계 샘플을 확인하세요."],
   experts: ["전문가 소개", "정부지원사업의 목적과 선정 이후 고객 유입을 함께 이해하는 거상마케팅센터 실행팀을 소개합니다."],
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = meta[section];
   if (!entry) return {};
   const metadata = makeMetadata(entry[0], entry[1], `/${section}`);
+  if (section === "after-selection") return { ...metadata, keywords: ["정부지원사업 선정 후", "정부지원사업 수행업체", "정부지원사업 마케팅 대행", "지원금 홈페이지 제작", "정부지원사업 결과보고", "희망리턴패키지 수행업체", "정부지원사업 실행업체"], openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "정부지원사업 선정 후 마케팅 실행 상담" }] }, twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] } };
   if (section !== "hope-return" && section !== "diagnosis") return metadata;
   if (section === "diagnosis") return {
     ...metadata,
@@ -104,6 +107,7 @@ export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
-  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <AfterSelectionPage />, services: <ServicesPage />, cases: <CasesPage />, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
-  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{pages[section]}</>;
+  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <CasesPage />, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
+  const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:"거상마케팅센터"}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
+  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
 }
