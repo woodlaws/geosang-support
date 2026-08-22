@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   keywords: ["정부지원사업 마케팅", "희망리턴패키지 마케팅", "정부지원금 마케팅 대행", "소상공인 마케팅 지원사업", "선정 후 마케팅 실행"],
   authors: [{ name: "거상마케팅센터" }],
   creator: "거상마케팅센터",
-  alternates: { canonical: SITE_URL },
+  alternates: { canonical: SITE_URL, types: { "application/rss+xml": `${SITE_URL}/rss.xml` } },
   openGraph: { type: "website", locale: "ko_KR", url: SITE_URL, siteName: SITE_NAME, title: "지원사업 선정 이후, 매출이 시작됩니다", description: "지원사업을 찾고 준비하는 과정부터 선정 이후 홈페이지·콘텐츠·광고·고객 유입까지 함께합니다.", images: [{ url: "/og.png", width: 1536, height: 1024, alt: "한국인 소상공인 대표와 마케팅 전문가의 상담 장면" }] },
   twitter: { card: "summary_large_image", title: "지원사업 선정 이후, 매출이 시작됩니다", description: "정부지원사업 준비부터 선정 이후 마케팅 실행까지 함께합니다.", images: ["/og.png"] },
   robots: { index: true, follow: true },

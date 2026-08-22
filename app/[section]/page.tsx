@@ -12,10 +12,12 @@ import { HopeReturnPage as EnhancedHopeReturnPage } from "@/components/HopeRetur
 import { DiagnosisLandingPage as EnhancedDiagnosisPage } from "@/components/DiagnosisLandingPage";
 import { AfterSelectionPage as EnhancedAfterSelectionPage } from "@/components/AfterSelectionPage";
 import { CasesPage as EnhancedCasesPage } from "@/components/CasesPage";
+import { InsightsPage as EnhancedInsightsPage } from "@/components/InsightsPage";
 import { caseFaqs } from "@/data/cases";
 import { afterSelectionFaqs } from "@/data/after-selection";
+import { insightFaqs, publishedInsights } from "@/data/insights";
 import { OfficialNotice } from "@/components/Notice";
-import { cases, experts, faqs, insights, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
+import { cases, experts, faqs, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
 import { breadcrumbJson, faqJson, makeMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ section: string }> };
@@ -28,7 +30,7 @@ const meta: Record<string, [string, string]> = {
   services: ["정부지원사업 마케팅 서비스", "브랜드 전략, 홈페이지, 블로그, 스마트플레이스, SNS, 숏폼, 광고, AEO·GEO와 결과보고 서비스를 제공합니다."],
   cases: ["정부지원사업 마케팅 실행 사례", "정부지원사업 선정 후 홈페이지, 콘텐츠, 스마트플레이스, SNS, 광고와 결과보고 자료를 어떻게 실행했는지 프로젝트 사례로 확인하세요."],
   experts: ["전문가 소개", "정부지원사업의 목적과 선정 이후 고객 유입을 함께 이해하는 거상마케팅센터 실행팀을 소개합니다."],
-  insights: ["정부지원사업 마케팅 자료실", "희망리턴패키지, 선정 전 준비, 지원금 집행, 결과보고와 선정 후 마케팅 실행 정보를 확인하세요."],
+  insights: ["정부지원사업 실무 자료실 | 신청부터 선정 후 실행까지", "희망리턴패키지, 창업·소상공인 지원사업의 신청 준비부터 선정 후 홈페이지, 콘텐츠, 광고, 증빙과 결과보고까지 실무 정보를 확인하세요."],
   diagnosis: ["무료 정부지원사업 자가진단 | 나에게 맞는 지원 방향 찾기", "5가지 질문으로 현재 사업 단계와 먼저 확인할 정부지원사업, 필요한 전문가와 선정 후 마케팅 실행 방향을 무료로 확인하세요."],
   contact: ["무료 상담 신청", "정부지원사업 준비 또는 선정 이후 마케팅 실행을 위한 전문가 상담을 신청하세요."],
   about: ["회사 소개", "지원사업 탐색과 선정 이후 마케팅 실행을 연결하는 민간 전문 조직, 거상 정부지원 마케팅센터를 소개합니다."],
@@ -44,6 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = meta[section];
   if (!entry) return {};
   const metadata = makeMetadata(entry[0], entry[1], `/${section}`);
+  if(section==="insights")return{...metadata,keywords:["정부지원사업 정보","2026 정부지원사업","소상공인 정부지원사업","희망리턴패키지","정부지원사업 신청","정부지원사업 사업계획서","정부지원사업 선정 후","정부지원사업 수행업체","지원금 홈페이지 제작","정부지원사업 마케팅","정부지원사업 결과보고"],openGraph:{...metadata.openGraph,type:"website",images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 실무 자료실"}]},twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]}};
   if (section === "cases") return { ...metadata, keywords:["정부지원사업 실행 사례","정부지원사업 마케팅 사례","희망리턴패키지 수행 사례","정부지원사업 수행업체","소상공인 마케팅 사례","선정 후 마케팅 대행"], openGraph:{...metadata.openGraph,images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 마케팅 실행 사례"}]}, twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]} };
   if (section === "after-selection") return { ...metadata, keywords: ["정부지원사업 선정 후", "정부지원사업 수행업체", "정부지원사업 마케팅 대행", "지원금 홈페이지 제작", "정부지원사업 결과보고", "희망리턴패키지 수행업체", "정부지원사업 실행업체"], openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "정부지원사업 선정 후 마케팅 실행 상담" }] }, twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] } };
   if (section !== "hope-return" && section !== "diagnosis") return metadata;
@@ -97,8 +100,6 @@ function CasesPage() { return <><PageHero eyebrow="실행 사례" title="성과 
 
 function ExpertsPage() { return <><PageHero eyebrow="전문가 소개" title="사업의 언어와 고객의 언어를 연결합니다" description="지원사업의 목적을 이해하면서도 선정 이후 실제 고객이 발견하고 문의하는 흐름을 만드는 실행 파트너입니다." cta={["전문가 연결 요청", "/contact"]} /><Breadcrumb current="전문가 소개" /><section className="section"><div className="shell expert-detail-grid">{experts.map((expert,index) => <article key={expert.name}>{expert.image ? <div className="expert-photo large"><img src={expert.image} alt={`${expert.name} 프로필 사진`} /></div> : <div className={`avatar large avatar-${index}`}>{expert.initials}</div>}<div><span>{expert.role}</span><h2>{expert.name}</h2><p>{expert.bio}</p><ul>{expert.specialties.map((item)=><li key={item}>{item}</li>)}</ul></div></article>)}</div></section><section className="section section-soft"><div className="shell callout"><div><span className="eyebrow">전문가 네트워크</span><h2>모든 사업을 한 사람이 안다고 말하지 않습니다</h2><p>지원사업과 업종의 특성에 따라 필요한 분야를 확인하고 적합한 외부 전문가와 협업합니다.</p></div><Link className="button button-primary" href="/contact">연결 요청하기 →</Link></div></section><FAQ limit={3} /><CTA compact /></> }
 
-function InsightsPage() { return <><PageHero eyebrow="자료실" title="공고 전 준비부터 선정 후 결과보고까지" description="지원사업과 마케팅 실행 사이에서 소상공인이 자주 놓치는 실무 정보를 이해하기 쉽게 정리합니다." /><Breadcrumb current="자료실" /><section className="section"><div className="shell insight-grid insight-page-grid">{insights.map((item,index) => <article key={item.slug}><div className={`insight-thumb thumb-${index+1}`}><span>{item.category}</span><b>{String(index+1).padStart(2,"0")}</b></div><div className="insight-body"><span>{item.date} · {item.readTime}</span><h2>{item.title}</h2><p>{item.description}</p><Link href={`/insights/${item.slug}`}>읽어보기 →</Link></div></article>)}</div><OfficialNotice /></section><FAQ limit={3} /><CTA compact /></> }
-
 function DiagnosisPage() { return <><PageHero eyebrow="무료 자가진단" title="5가지 질문으로 지금 필요한 방향을 확인하세요" description="진단 결과는 지원 가능 여부를 확정하거나 선정을 보장하는 결과가 아닙니다. 공식 공고와 전문가 확인을 위한 첫 단계입니다." /><Breadcrumb current="무료 자가진단" /><section className="section diagnosis-page"><div className="shell"><DiagnosisWizard /></div></section><OfficialNotice /><FAQ limit={4} /><CTA compact /></> }
 
 function ContactPage() { return <><PageHero eyebrow="상담 신청" title="현재 상황을 알려주시면 실행 방향부터 정리해드립니다" description="지원사업 신청 예정, 심사 중, 선정 완료 어느 단계든 상담할 수 있습니다. 선정 완료 상태라면 지원사업명과 집행 기한을 함께 알려주세요." /><Breadcrumb current="상담 신청" /><section className="section contact-page"><div className="shell contact-page-grid"><aside><span className="eyebrow">상담 안내</span><h2>영업일 기준 1일 이내 연락드립니다</h2><p>제출 내용을 확인한 뒤 필요한 추가 자료와 상담 일정을 안내합니다.</p><div className="contact-info"><div><span>01</span><p><strong>현재 단계 확인</strong>신청 전·심사 중·선정 후</p></div><div><span>02</span><p><strong>실행 요구 정리</strong>목표·예산·기한·산출물</p></div><div><span>03</span><p><strong>상담 및 제안</strong>적합한 범위와 다음 단계</p></div></div><small>거상 정부지원 마케팅센터는 정부기관이 아닌 민간 사업자입니다.</small></aside><ContactForm /></div></section><FAQ /><CTA compact /></> }
@@ -111,7 +112,8 @@ export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
-  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<div className="section shell">사례를 불러오는 중입니다.</div>}><EnhancedCasesPage /></Suspense>, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
+  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<div className="section shell">사례를 불러오는 중입니다.</div>}><EnhancedCasesPage /></Suspense>, experts: <ExpertsPage />, insights: <Suspense fallback={<div className="section shell">자료를 불러오는 중입니다.</div>}><EnhancedInsightsPage /></Suspense>, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
   const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:"거상마케팅센터"}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
-  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{section === "cases" && <JsonLd data={faqJson(caseFaqs)} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
+  const collectionSchema={"@context":"https://schema.org","@type":"CollectionPage",name:meta.insights[0],description:meta.insights[1],url:`${SITE_URL}/insights`,mainEntity:{"@type":"ItemList",itemListElement:publishedInsights.map((item,index)=>({"@type":"ListItem",position:index+1,url:`${SITE_URL}/insights/${item.slug}`,name:item.title}))}};
+  return <>{section !== "hope-return" && section !== "diagnosis" && section !== "insights" && <Schema section={section} title={title} />}{section === "insights"&&<JsonLd data={[breadcrumbJson([{name:"홈",path:"/"},{name:"자료실",path:"/insights"}]),faqJson(insightFaqs),collectionSchema]}/>} {section === "cases" && <JsonLd data={faqJson(caseFaqs)} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
 }

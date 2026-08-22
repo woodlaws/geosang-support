@@ -15,7 +15,7 @@ export function Footer() {
         </div>
         <div>
           <strong>안내</strong>
-          <div className="footer-links"><Link href="/about">회사 소개</Link><Link href="/privacy">개인정보처리방침</Link><a href="mailto:contact@geosang.co.kr">contact@geosang.co.kr</a></div>
+          <div className="footer-links"><Link href="/about">회사 소개</Link><Link href="/privacy">개인정보처리방침</Link><Link href="/rss.xml">자료실 RSS</Link><a href="mailto:contact@geosang.co.kr">contact@geosang.co.kr</a></div>
         </div>
       </div>
       <div className="shell footer-bottom">© {new Date().getFullYear()} Geosang Marketing Center. 본 사이트는 정부기관이 아닌 민간 마케팅 서비스입니다.</div>
