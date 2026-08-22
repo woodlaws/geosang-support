@@ -1,12 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { submitConsultation } from "@/lib/contact";
+import { GOOGLE_APPS_SCRIPT_URL, submitConsultation } from "@/lib/contact";
 
 const serviceOptions = ["브랜드 전략", "홈페이지 제작", "네이버 블로그", "스마트플레이스", "SNS 콘텐츠", "숏폼 제작", "광고 운영", "AEO·GEO", "결과보고"];
 
 export function ContactForm({ compact = false }: { compact?: boolean }) {
-  const [state, setState] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "success" | "error" | "unconfigured">("idle");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,7 +18,7 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
       if (key === "services") payload[key] = formData.getAll(key).map(String);
       else payload[key] = String(value);
     });
-    try { await submitConsultation(payload); setState("success"); form.reset(); }
+    try { const result = await submitConsultation(payload); if (result.demo || !GOOGLE_APPS_SCRIPT_URL) { setState("unconfigured"); return; } setState("success"); form.reset(); }
     catch { setState("error"); }
   }
 
@@ -40,7 +40,8 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
       <fieldset><legend>필요한 서비스</legend><div className="check-grid">{serviceOptions.map((item) => <label key={item}><input type="checkbox" name="services" value={item} /> <span>{item}</span></label>)}</div></fieldset>
       <label>현재 고민 <span>*</span><textarea name="concern" required rows={5} placeholder="현재 상황과 가장 고민되는 내용을 알려주세요." /></label>
       <label className="privacy-check"><input type="checkbox" name="privacy" required value="동의" /> <span><a href="/privacy" target="_blank">개인정보 수집 및 이용</a>에 동의합니다. <b>*</b></span></label>
-      {state === "error" && <p className="form-error" role="alert">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>}
+      {state === "unconfigured" && <p className="form-info" role="status">현재 온라인 접수 연결을 준비 중입니다. 입력 내용은 전송되지 않았습니다. <a href="mailto:contact@geosang.co.kr">이메일 상담을 이용해주세요.</a></p>}
+      {state === "error" && <p className="form-error" role="alert">전송 중 오류가 발생했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도해주세요.</p>}
       <button className="button button-coral form-submit" type="submit" disabled={state === "sending"}>{state === "sending" ? "접수 중…" : "무료 상담 신청하기"} <span aria-hidden="true">→</span></button>
       <p className="form-footnote">제출하신 정보는 상담 안내 목적으로만 사용합니다.</p>
     </form>

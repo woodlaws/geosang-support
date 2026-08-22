@@ -1,13 +1,13 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { submitConsultation } from "@/lib/contact";
+import { GOOGLE_APPS_SCRIPT_URL, submitConsultation } from "@/lib/contact";
 
 const expertOptions = ["지원사업 공고 분석", "사업계획서", "세무·회계", "폐업 행정", "법률·채무", "재창업 전략", "마케팅 실행", "결과보고"];
 const marketingOptions = ["브랜드", "홈페이지", "콘텐츠", "SNS", "스마트플레이스", "광고", "AEO·GEO", "마케팅 결과보고"];
 
 export function HopeReturnContactForm() {
-  const [state, setState] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "success" | "error" | "unconfigured">("idle");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,7 +18,7 @@ export function HopeReturnContactForm() {
     formData.forEach((value, key) => {
       payload[key] = key === "experts" || key === "marketingServices" ? formData.getAll(key).map(String) : String(value);
     });
-    try { await submitConsultation(payload); setState("success"); form.reset(); }
+    try { const result = await submitConsultation(payload); if (result.demo || !GOOGLE_APPS_SCRIPT_URL) { setState("unconfigured"); return; } setState("success"); form.reset(); }
     catch { setState("error"); }
   }
 
@@ -39,7 +39,8 @@ export function HopeReturnContactForm() {
     <fieldset><legend>필요한 마케팅 서비스</legend><div className="check-grid">{marketingOptions.map((item) => <label key={item}><input type="checkbox" name="marketingServices" value={item} /><span>{item}</span></label>)}</div></fieldset>
     <label>현재 고민 <span>*</span><textarea name="concern" required rows={5} placeholder="현재 상황과 확인하고 싶은 내용을 알려주세요." /></label>
     <label className="privacy-check"><input type="checkbox" name="privacy" required value="동의" /><span><a href="/privacy" target="_blank" rel="noopener noreferrer">개인정보 수집 및 이용</a>에 동의합니다. <b>*</b></span></label>
-    {state === "error" && <p className="form-error" role="alert">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>}
+    {state === "unconfigured" && <p className="form-info" role="status">현재 온라인 접수 연결을 준비 중입니다. 입력 내용은 전송되지 않았습니다. <a href="mailto:contact@geosang.co.kr">이메일 상담을 이용해주세요.</a></p>}
+    {state === "error" && <p className="form-error" role="alert">전송 중 오류가 발생했습니다. 입력 내용은 유지됩니다. 잠시 후 다시 시도해주세요.</p>}
     <button className="button button-coral form-submit" type="submit" disabled={state === "sending"}>{state === "sending" ? "접수 중…" : "전문가 상담 요청하기"} →</button>
     <p className="form-footnote">제출 정보는 상담 안내 목적으로만 사용됩니다.</p>
   </form>;
