@@ -32,8 +32,8 @@ export default function Home() {
         </div>
         <div className="hero-visual" aria-label="한국인 소상공인 대표와 마케팅 전문가의 상담 장면">
           <img src="/images/hero-korean-consulting-v2.png" alt="밝은 국내 카페에서 노트북과 서류를 함께 검토하는 한국인 소상공인 대표와 마케팅 전문가" />
-          <aside className="diagnosis-float"><span className="float-kicker">무료 자가진단</span><strong>5가지 질문으로 내 상황에 맞는<br />다음 단계를 확인하세요.</strong><Link href="/diagnosis">지금 진단 시작하기 <span aria-hidden="true">→</span></Link></aside>
-          <div className="hero-float"><span className="float-icon">✓</span><div><strong>선정 후 실행 준비</strong><small>전략 · 제작 · 운영 · 결과보고</small></div></div>
+          <aside className="diagnosis-float hero-diagnosis-card"><span className="float-kicker">무료 자가진단</span><strong>5가지 질문으로 내 상황에 맞는<br />다음 단계를 확인하세요.</strong><Link href="/diagnosis">지금 진단 시작하기 <span aria-hidden="true">→</span></Link></aside>
+          <div className="hero-float hero-execution-card"><span className="float-icon">✓</span><div><strong>선정 후 실행 준비</strong><small>전략 · 제작 · 운영 · 결과보고</small></div></div>
         </div>
       </div>
     </section>
