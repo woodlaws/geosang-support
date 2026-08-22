@@ -8,6 +8,7 @@ import { DiagnosisWizard } from "@/components/DiagnosisWizard";
 import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { HopeReturnPage as EnhancedHopeReturnPage } from "@/components/HopeReturnPage";
+import { DiagnosisLandingPage as EnhancedDiagnosisPage } from "@/components/DiagnosisLandingPage";
 import { OfficialNotice } from "@/components/Notice";
 import { cases, experts, faqs, insights, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
 import { breadcrumbJson, faqJson, makeMetadata } from "@/lib/seo";
@@ -23,7 +24,7 @@ const meta: Record<string, [string, string]> = {
   cases: ["마케팅 실행 사례", "소상공인 업종과 지원사업 상황별 홈페이지·콘텐츠·SNS·광고 실행 설계 샘플을 확인하세요."],
   experts: ["전문가 소개", "정부지원사업의 목적과 선정 이후 고객 유입을 함께 이해하는 거상마케팅센터 실행팀을 소개합니다."],
   insights: ["정부지원사업 마케팅 자료실", "희망리턴패키지, 선정 전 준비, 지원금 집행, 결과보고와 선정 후 마케팅 실행 정보를 확인하세요."],
-  diagnosis: ["무료 지원사업 자가진단", "5가지 질문으로 현재 사업 단계와 필요한 지원사업·마케팅 실행 방향을 간단히 확인하세요."],
+  diagnosis: ["무료 정부지원사업 자가진단 | 나에게 맞는 지원 방향 찾기", "5가지 질문으로 현재 사업 단계와 먼저 확인할 정부지원사업, 필요한 전문가와 선정 후 마케팅 실행 방향을 무료로 확인하세요."],
   contact: ["무료 상담 신청", "정부지원사업 준비 또는 선정 이후 마케팅 실행을 위한 전문가 상담을 신청하세요."],
   about: ["회사 소개", "지원사업 탐색과 선정 이후 마케팅 실행을 연결하는 민간 전문 조직, 거상 정부지원 마케팅센터를 소개합니다."],
   privacy: ["개인정보처리방침", "거상 정부지원 마케팅센터의 상담 신청 개인정보 수집 및 처리 기준을 안내합니다."],
@@ -38,7 +39,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = meta[section];
   if (!entry) return {};
   const metadata = makeMetadata(entry[0], entry[1], `/${section}`);
-  if (section !== "hope-return") return metadata;
+  if (section !== "hope-return" && section !== "diagnosis") return metadata;
+  if (section === "diagnosis") return {
+    ...metadata,
+    keywords: ["정부지원사업 자가진단", "정부지원사업 대상 확인", "소상공인 지원사업 찾기", "나에게 맞는 정부지원사업", "창업지원사업 찾기", "희망리턴패키지 대상 확인", "소상공인 무료 상담", "정부지원사업 상담", "정부지원사업 선정 후", "정부지원사업 마케팅 대행"],
+    openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "무료 정부지원사업 방향 진단" }] },
+    twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] },
+  };
   return {
     ...metadata,
     keywords: ["희망리턴패키지", "희망리턴패키지 신청", "희망리턴패키지 지원 대상", "희망리턴패키지 폐업지원", "희망리턴패키지 재창업", "희망리턴패키지 마케팅", "희망리턴패키지 수행업체", "소상공인 폐업지원", "소상공인 재창업 지원", "정부지원사업 마케팅 대행"],
@@ -97,6 +104,6 @@ export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
-  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <AfterSelectionPage />, services: <ServicesPage />, cases: <CasesPage />, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <DiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
-  return <>{section !== "hope-return" && <Schema section={section} title={title} />}{pages[section]}</>;
+  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <AfterSelectionPage />, services: <ServicesPage />, cases: <CasesPage />, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
+  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{pages[section]}</>;
 }

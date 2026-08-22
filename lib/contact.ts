@@ -1,4 +1,5 @@
 export const GOOGLE_APPS_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL || "";
+export const CONSULTATION_STATUSES = ["신규 문의", "1차 연락", "상담 예정", "상담 완료", "전문가 연결", "견적 발송", "계약 검토", "계약 완료", "보류", "종료"] as const;
 
 export async function submitConsultation(payload: Record<string, string | string[] | boolean>) {
   if (!GOOGLE_APPS_SCRIPT_URL) {
