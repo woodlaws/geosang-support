@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -10,6 +11,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { HopeReturnPage as EnhancedHopeReturnPage } from "@/components/HopeReturnPage";
 import { DiagnosisLandingPage as EnhancedDiagnosisPage } from "@/components/DiagnosisLandingPage";
 import { AfterSelectionPage as EnhancedAfterSelectionPage } from "@/components/AfterSelectionPage";
+import { CasesPage as EnhancedCasesPage } from "@/components/CasesPage";
+import { caseFaqs } from "@/data/cases";
 import { afterSelectionFaqs } from "@/data/after-selection";
 import { OfficialNotice } from "@/components/Notice";
 import { cases, experts, faqs, insights, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
@@ -23,7 +26,7 @@ const meta: Record<string, [string, string]> = {
   "before-selection": ["정부지원사업 선정 전 준비", "공고 확인, 사업 현황 진단, 사업계획서 마케팅 항목과 실행 가능 예산을 차분히 준비하는 방법을 안내합니다."],
   "after-selection": ["정부지원사업 선정 후 마케팅 실행·수행업체", "정부지원사업에 선정되셨나요? 협약과 집행 항목을 확인하고 홈페이지, 블로그, SNS, 광고, AEO·GEO와 결과보고 자료까지 한 번에 준비하세요."],
   services: ["정부지원사업 마케팅 서비스", "브랜드 전략, 홈페이지, 블로그, 스마트플레이스, SNS, 숏폼, 광고, AEO·GEO와 결과보고 서비스를 제공합니다."],
-  cases: ["마케팅 실행 사례", "소상공인 업종과 지원사업 상황별 홈페이지·콘텐츠·SNS·광고 실행 설계 샘플을 확인하세요."],
+  cases: ["정부지원사업 마케팅 실행 사례", "정부지원사업 선정 후 홈페이지, 콘텐츠, 스마트플레이스, SNS, 광고와 결과보고 자료를 어떻게 실행했는지 프로젝트 사례로 확인하세요."],
   experts: ["전문가 소개", "정부지원사업의 목적과 선정 이후 고객 유입을 함께 이해하는 거상마케팅센터 실행팀을 소개합니다."],
   insights: ["정부지원사업 마케팅 자료실", "희망리턴패키지, 선정 전 준비, 지원금 집행, 결과보고와 선정 후 마케팅 실행 정보를 확인하세요."],
   diagnosis: ["무료 정부지원사업 자가진단 | 나에게 맞는 지원 방향 찾기", "5가지 질문으로 현재 사업 단계와 먼저 확인할 정부지원사업, 필요한 전문가와 선정 후 마케팅 실행 방향을 무료로 확인하세요."],
@@ -41,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = meta[section];
   if (!entry) return {};
   const metadata = makeMetadata(entry[0], entry[1], `/${section}`);
+  if (section === "cases") return { ...metadata, keywords:["정부지원사업 실행 사례","정부지원사업 마케팅 사례","희망리턴패키지 수행 사례","정부지원사업 수행업체","소상공인 마케팅 사례","선정 후 마케팅 대행"], openGraph:{...metadata.openGraph,images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 마케팅 실행 사례"}]}, twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]} };
   if (section === "after-selection") return { ...metadata, keywords: ["정부지원사업 선정 후", "정부지원사업 수행업체", "정부지원사업 마케팅 대행", "지원금 홈페이지 제작", "정부지원사업 결과보고", "희망리턴패키지 수행업체", "정부지원사업 실행업체"], openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "정부지원사업 선정 후 마케팅 실행 상담" }] }, twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] } };
   if (section !== "hope-return" && section !== "diagnosis") return metadata;
   if (section === "diagnosis") return {
@@ -107,7 +111,7 @@ export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
-  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <CasesPage />, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
+  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<div className="section shell">사례를 불러오는 중입니다.</div>}><EnhancedCasesPage /></Suspense>, experts: <ExpertsPage />, insights: <InsightsPage />, diagnosis: <EnhancedDiagnosisPage />, contact: <ContactPage />, about: <AboutPage />, privacy: <PrivacyPage /> };
   const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:"거상마케팅센터"}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
-  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
+  return <>{section !== "hope-return" && section !== "diagnosis" && <Schema section={section} title={title} />}{section === "cases" && <JsonLd data={faqJson(caseFaqs)} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
 }

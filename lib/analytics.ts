@@ -14,3 +14,7 @@ export function trackAfterSelectionEvent(name: AfterSelectionEventName, paramete
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", name, parameters);
 }
+
+export type CaseEventName = "cases_view"|"case_filter_select"|"case_search"|"case_card_click"|"case_detail_view"|"case_deliverable_click"|"case_related_service_click"|"case_consult_click"|"case_form_start"|"case_form_submit"|"case_form_success"|"case_form_error";
+type CaseEventParameters = {case_id?:string;case_slug?:string;industry?:string;program?:string;project_status?:string;service?:string;filter_type?:string;cta_location?:string};
+export function trackCaseEvent(name:CaseEventName,parameters:CaseEventParameters={}){if(typeof window==="undefined"||typeof window.gtag!=="function")return;window.gtag("event",name,parameters)}
