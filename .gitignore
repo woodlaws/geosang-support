@@ -3,6 +3,7 @@ node_modules
 out
 dist
 .wrangler
+.vercel
 qa
 .env*
 !.env.example
