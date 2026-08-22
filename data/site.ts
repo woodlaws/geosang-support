@@ -39,17 +39,18 @@ export type CaseStudy = {
   program: string;
   problem: string;
   execution: string[];
+  deliverables: string[];
   status: string;
   note: string;
 };
 
 export const cases: CaseStudy[] = [
-  { slug: "local-cafe-brand", title: "동네 카페 브랜드 기반 정비", industry: "카페·디저트", program: "희망리턴패키지", problem: "브랜드 강점과 온라인 고객 접점이 정리되지 않은 상황", execution: ["브랜드 메시지", "스마트플레이스", "콘텐츠 기획"], status: "샘플 실행안", note: "현황 진단 후 고객이 발견하고 신뢰하는 접점을 우선 정비하는 예시입니다." },
-  { slug: "beauty-booking-funnel", title: "뷰티 매장 예약 동선 개선", industry: "뷰티·서비스", program: "소상공인 판로지원", problem: "SNS 노출은 있으나 상담과 예약까지의 연결이 약한 상황", execution: ["랜딩페이지", "SNS 콘텐츠", "예약 동선"], status: "샘플 실행안", note: "채널별 역할과 예약 전환 동선을 단순화하는 예시입니다." },
-  { slug: "local-food-content", title: "지역 식품 온라인 콘텐츠 구축", industry: "식품 제조", program: "판로개척 지원", problem: "제품 차별점과 생산자 이야기가 고객에게 전달되지 않는 상황", execution: ["콘텐츠 전략", "상세페이지", "숏폼"], status: "샘플 실행안", note: "제품 근거와 생산 과정을 콘텐츠 자산으로 전환하는 예시입니다." },
-  { slug: "education-lead-page", title: "교육 서비스 상담 페이지 설계", industry: "교육·컨설팅", program: "창업사업화 지원", problem: "서비스 설명은 많지만 고객의 상담 결정 기준이 불명확한 상황", execution: ["홈페이지", "FAQ", "상담 폼"], status: "샘플 실행안", note: "고객 질문을 중심으로 정보 구조와 상담 경로를 설계하는 예시입니다." },
-  { slug: "fitness-local-search", title: "운동 시설 지역 검색 기반 강화", industry: "스포츠·건강", program: "디지털 전환 지원", problem: "지역 검색에서 프로그램 특성과 전문성이 잘 드러나지 않는 상황", execution: ["스마트플레이스", "블로그", "AEO·GEO"], status: "샘플 실행안", note: "지역성과 전문 정보를 일관된 데이터로 정리하는 예시입니다." },
-  { slug: "craft-brand-launch", title: "공예 브랜드 초기 런칭 체계", industry: "공예·라이프스타일", program: "초기창업패키지", problem: "상품은 준비됐지만 브랜드 소개와 판매 콘텐츠가 부족한 상황", execution: ["브랜드 전략", "홈페이지", "SNS"], status: "샘플 실행안", note: "런칭에 필요한 최소 브랜드 자산과 채널별 콘텐츠를 준비하는 예시입니다." },
+  { slug: "local-cafe-brand", title: "동네 카페 브랜드 기반 정비", industry: "카페·디저트", program: "희망리턴패키지", problem: "브랜드 강점과 온라인 고객 접점이 정리되지 않은 상황", execution: ["브랜드 메시지", "스마트플레이스", "콘텐츠 기획"], deliverables: ["핵심 메시지 가이드", "플레이스 정보 구조", "콘텐츠 주제표"], status: "샘플 실행안", note: "현황 진단 후 고객이 발견하고 신뢰하는 접점을 우선 정비하는 예시입니다." },
+  { slug: "beauty-booking-funnel", title: "뷰티 매장 예약 동선 개선", industry: "뷰티·서비스", program: "소상공인 판로지원", problem: "SNS 노출은 있으나 상담과 예약까지의 연결이 약한 상황", execution: ["랜딩페이지", "SNS 콘텐츠", "예약 동선"], deliverables: ["예약 랜딩페이지", "콘텐츠 템플릿", "문의 동선표"], status: "샘플 실행안", note: "채널별 역할과 예약 전환 동선을 단순화하는 예시입니다." },
+  { slug: "local-food-content", title: "지역 식품 온라인 콘텐츠 구축", industry: "식품 제조", program: "판로개척 지원", problem: "제품 차별점과 생산자 이야기가 고객에게 전달되지 않는 상황", execution: ["콘텐츠 전략", "상세페이지", "숏폼"], deliverables: ["제품 상세페이지", "촬영 기획안", "숏폼 구성안"], status: "샘플 실행안", note: "제품 근거와 생산 과정을 콘텐츠 자산으로 전환하는 예시입니다." },
+  { slug: "education-lead-page", title: "교육 서비스 상담 페이지 설계", industry: "교육·컨설팅", program: "창업사업화 지원", problem: "서비스 설명은 많지만 고객의 상담 결정 기준이 불명확한 상황", execution: ["홈페이지", "FAQ", "상담 폼"], deliverables: ["서비스 소개 페이지", "FAQ 콘텐츠", "상담 접수 폼"], status: "샘플 실행안", note: "고객 질문을 중심으로 정보 구조와 상담 경로를 설계하는 예시입니다." },
+  { slug: "fitness-local-search", title: "운동 시설 지역 검색 기반 강화", industry: "스포츠·건강", program: "디지털 전환 지원", problem: "지역 검색에서 프로그램 특성과 전문성이 잘 드러나지 않는 상황", execution: ["스마트플레이스", "블로그", "AEO·GEO"], deliverables: ["플레이스 정보표", "검색 콘텐츠", "구조화 문답"], status: "샘플 실행안", note: "지역성과 전문 정보를 일관된 데이터로 정리하는 예시입니다." },
+  { slug: "craft-brand-launch", title: "공예 브랜드 초기 런칭 체계", industry: "공예·라이프스타일", program: "초기창업패키지", problem: "상품은 준비됐지만 브랜드 소개와 판매 콘텐츠가 부족한 상황", execution: ["브랜드 전략", "홈페이지", "SNS"], deliverables: ["브랜드 소개서", "런칭 홈페이지", "SNS 콘텐츠 세트"], status: "샘플 실행안", note: "런칭에 필요한 최소 브랜드 자산과 채널별 콘텐츠를 준비하는 예시입니다." },
 ];
 
 export type Insight = {
@@ -79,15 +80,15 @@ export const faqs = [
 ];
 
 export const experts = [
-  { name: "임헌수 대표", role: "마케팅 전략·사업 실행", initials: "임", bio: "소상공인의 사업 상황을 고객 유입과 매출 실행 과제로 연결합니다." },
-  { name: "이유진 팀장", role: "콘텐츠·프로젝트 운영", initials: "이", bio: "채널별 콘텐츠와 일정, 산출물, 커뮤니케이션을 체계적으로 관리합니다." },
-  { name: "외부 지원사업 전문가 네트워크", role: "사업별 전문 자문", initials: "전", bio: "지원사업 특성과 업종에 따라 필요한 분야의 전문가 연결을 돕습니다." },
+  { name: "임헌수 대표", role: "거상스쿨·거상마케팅센터 대표", initials: "임", image: "/images/lim-heonsu.png", bio: "AI 마케팅과 온라인 고객 유입 전략을 바탕으로 홈페이지·AEO·GEO·콘텐츠 시스템을 구축합니다.", specialties: ["AI 마케팅 및 온라인 고객 유입 전략", "홈페이지·AEO·GEO", "콘텐츠 시스템 구축"] },
+  { name: "이유진 팀장", role: "SNS·브랜드 콘텐츠 전략", initials: "이", image: "/images/lee-yujin.png", bio: "인플루언서·공동구매·콘텐츠 제작을 연결하고 프로젝트 실행 전 과정을 관리합니다.", specialties: ["SNS·브랜드 콘텐츠 전략", "인플루언서·공동구매", "프로젝트 실행 관리"] },
+  { name: "지원사업 전문가 네트워크", role: "사업별 전문 자문", initials: "전", image: null, bio: "지원사업 특성과 업종에 따라 필요한 분야의 전문가 연결을 돕습니다.", specialties: ["사업별 공고 검토", "분야별 전문가 연결", "실행 범위 자문"] },
 ];
 
 export const navItems = [
   ["희망리턴패키지", "/hope-return"],
   ["정부지원사업", "/programs"],
-  ["선정 전 준비", "/before-selection"],
+  ["무료 자가진단", "/diagnosis"],
   ["선정 후 실행", "/after-selection"],
   ["실행 사례", "/cases"],
   ["자료실", "/insights"],

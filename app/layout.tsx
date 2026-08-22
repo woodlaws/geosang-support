@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { MobileCTA } from "@/components/MobileCTA";
 import { SITE_NAME, SITE_URL } from "@/data/site";
 import "./globals.css";
 
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
   authors: [{ name: "거상마케팅센터" }],
   creator: "거상마케팅센터",
   alternates: { canonical: SITE_URL },
-  openGraph: { type: "website", locale: "ko_KR", url: SITE_URL, siteName: SITE_NAME, title: "지원사업 선정 이후, 매출이 시작됩니다", description: "지원사업을 찾고 준비하는 과정부터 선정 이후 홈페이지·콘텐츠·광고·고객 유입까지 함께합니다." },
-  twitter: { card: "summary", title: "지원사업 선정 이후, 매출이 시작됩니다", description: "정부지원사업 준비부터 선정 이후 마케팅 실행까지 함께합니다." },
+  openGraph: { type: "website", locale: "ko_KR", url: SITE_URL, siteName: SITE_NAME, title: "지원사업 선정 이후, 매출이 시작됩니다", description: "지원사업을 찾고 준비하는 과정부터 선정 이후 홈페이지·콘텐츠·광고·고객 유입까지 함께합니다.", images: [{ url: "/og.png", width: 1536, height: 1024, alt: "한국인 소상공인 대표와 마케팅 전문가의 상담 장면" }] },
+  twitter: { card: "summary_large_image", title: "지원사업 선정 이후, 매출이 시작됩니다", description: "정부지원사업 준비부터 선정 이후 마케팅 실행까지 함께합니다.", images: ["/og.png"] },
   robots: { index: true, follow: true },
 };
 
@@ -30,5 +31,5 @@ const organization = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko"><body><a className="skip-link" href="#main">본문 바로가기</a><JsonLd data={organization} /><Header /><main id="main">{children}</main><Footer /></body></html>;
+  return <html lang="ko"><body><a className="skip-link" href="#main">본문 바로가기</a><JsonLd data={organization} /><Header /><main id="main">{children}</main><Footer /><MobileCTA /></body></html>;
 }
