@@ -1,6 +1,6 @@
 export type DiagnosisEventName = "diagnosis_view" | "diagnosis_start" | "diagnosis_step_complete" | "diagnosis_abandon" | "diagnosis_complete" | "diagnosis_result_view" | "diagnosis_consult_click" | "diagnosis_form_start" | "diagnosis_form_submit" | "diagnosis_form_success" | "diagnosis_form_error";
 
-type SafeEventParameters = { step?: number; business_status?: string; industry?: string; application_status?: string; result_type?: string; consultation_goal?: string; source_page?: string; current_stage?: string; selected_program?: string; selected_services?: string; package_type?: string; budget_range?: string; deadline_range?: string; cta_location?: string };
+type SafeEventParameters = { step?: number; business_status?: string; industry?: string; application_status?: string; result_type?: string; consultation_goal?: string; source_page?: string; current_stage?: string; selected_program?: string; selected_services?: string; package_type?: string; budget_range?: string; deadline_range?: string; cta_location?: string; priority?: string; form_type?: string };
 
 declare global { interface Window { gtag?: (command: "event", name: string, parameters?: Record<string, unknown>) => void } }
 
@@ -9,7 +9,7 @@ export function trackDiagnosisEvent(name: DiagnosisEventName, parameters: SafeEv
   window.gtag("event", name, parameters);
 }
 
-export type AfterSelectionEventName = "after_selection_view" | "urgent_stage_select" | "execution_service_select" | "package_select" | "case_view" | "quote_form_view" | "quote_form_start" | "quote_form_submit" | "quote_form_success" | "quote_form_error" | "after_selection_cta_click" | "contact_phone_click" | "contact_kakao_click";
+export type AfterSelectionEventName = "after_selection_view" | "urgent_stage_select" | "execution_service_select" | "package_select" | "case_view" | "quote_form_view" | "quote_form_start" | "quote_form_submit" | "quote_form_success" | "quote_form_error" | "after_selection_cta_click" | "contact_phone_click" | "contact_kakao_click" | "after_selection_header_cta_view" | "after_selection_header_cta_click" | "after_selection_quick_check_start" | "after_selection_stage_select" | "after_selection_service_select" | "after_selection_consult_form_start" | "after_selection_consult_form_submit" | "after_selection_consult_success" | "after_selection_consult_error" | "mobile_sticky_consult_click";
 export function trackAfterSelectionEvent(name: AfterSelectionEventName, parameters: SafeEventParameters = {}) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", name, parameters);
