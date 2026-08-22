@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navItems } from "@/data/site";
@@ -17,9 +18,9 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="header-inner shell">
-        <Link className="brand" href="/" aria-label="거상 정부지원 마케팅센터 홈" onClick={() => updateMenu(false)}>
-          <span className="brand-mark">거상</span>
-          <span className="brand-name">정부지원 마케팅센터</span>
+        <Link className="brand" href="/" aria-label="거상 정부지원 마케팅센터 홈으로 이동" onClick={() => updateMenu(false)}>
+          <Image className="brand-logo" src="/images/geosang-logo.png" width={46} height={48} alt="거상 정부지원 마케팅센터 로고" priority sizes="46px" />
+          <span className="brand-copy"><strong className="brand-primary">거상</strong><span className="brand-secondary">정부지원 마케팅센터</span></span>
         </Link>
         <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-nav" onClick={() => updateMenu(!open)}>
           <span className="sr-only">메뉴 열기</span>

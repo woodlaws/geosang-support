@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   authors: [{ name: "거상마케팅센터" }],
   creator: "거상마케팅센터",
   alternates: { canonical: SITE_URL, types: { "application/rss+xml": `${SITE_URL}/rss.xml` } },
-  openGraph: { type: "website", locale: "ko_KR", url: SITE_URL, siteName: SITE_NAME, title: "지원사업 선정 이후, 매출이 시작됩니다", description: "지원사업을 찾고 준비하는 과정부터 선정 이후 홈페이지·콘텐츠·광고·고객 유입까지 함께합니다.", images: [{ url: "/og.png", width: 1536, height: 1024, alt: "한국인 소상공인 대표와 마케팅 전문가의 상담 장면" }] },
+  openGraph: { type: "website", locale: "ko_KR", url: SITE_URL, siteName: SITE_NAME, title: "지원사업 선정 이후, 매출이 시작됩니다", description: "지원사업을 찾고 준비하는 과정부터 선정 이후 홈페이지·콘텐츠·광고·고객 유입까지 함께합니다.", images: [{ url: "/og.png", width: 1200, height: 630, alt: "거상 공식 방패 로고와 거상 정부지원 마케팅센터 브랜드 메시지" }] },
   twitter: { card: "summary_large_image", title: "지원사업 선정 이후, 매출이 시작됩니다", description: "정부지원사업 준비부터 선정 이후 마케팅 실행까지 함께합니다.", images: ["/og.png"] },
   robots: { index: true, follow: true },
 };
@@ -28,6 +28,7 @@ const organization = {
   url: SITE_URL,
   description: "정부지원사업 준비와 선정 이후 마케팅 실행을 지원하는 민간 마케팅센터",
   email: "contact@geosang.co.kr",
+  logo: `${SITE_URL}/images/geosang-logo.png`,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
