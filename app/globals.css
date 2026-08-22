@@ -25,6 +25,11 @@
 @media(max-width:390px){.shell{width:calc(100% - 28px)}.brand{gap:7px}.brand-logo{width:32px;height:34px}.brand-primary{font-size:17px}.brand-secondary{font-size:13px}.hero h1,.sales-hero h1{font-size:36px}.hero-visual>img{height:300px}.hero-proof{display:grid;grid-template-columns:1fr 1fr}.hero-proof span:last-child{grid-column:1/-1}.section-heading h2{font-size:31px}.sub-hero h1,.detail-hero h1{font-size:34px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
+/* Keep the home diagnosis card in the photo's empty area and off every face. */
+.hero .diagnosis-float{z-index:2;right:auto;left:28px}
+@media(max-width:1220px){.hero .diagnosis-float{right:auto;left:24px}}
+@media(max-width:768px){.hero .diagnosis-float{position:static;inset:auto}}
+
 /* Hope Return Package landing page */
 .hope-hero{overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(120deg,#f4f9ff 0%,#fff 64%)}
 .hope-hero-grid{display:grid;min-height:650px;grid-template-columns:.93fr 1.07fr;align-items:center;gap:62px;padding:70px 0}
