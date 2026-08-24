@@ -4,14 +4,14 @@ import { DiagnosisWizard } from "@/components/DiagnosisWizard";
 import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { OfficialNotice } from "@/components/Notice";
-import { cases, experts, faqs, insights, programs, services, SITE_URL } from "@/data/site";
+import { cases, experts, faqs, insights, programs, services, SITE_NAME, SITE_URL } from "@/data/site";
 import { faqJson } from "@/lib/seo";
 
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "정부지원사업 선정 후 마케팅 실행",
-  provider: { "@type": "Organization", name: "거상마케팅센터", url: SITE_URL },
+  provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   areaServed: "대한민국",
   serviceType: ["홈페이지 제작", "콘텐츠 마케팅", "광고 운영", "AEO·GEO", "결과보고 지원"],
   description: "지원사업 선정 이후 사업계획과 예산에 맞춘 마케팅 전략, 제작, 운영과 보고를 지원합니다.",

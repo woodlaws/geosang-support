@@ -21,24 +21,24 @@ import { insightFaqs, publishedInsights } from "@/data/insights";
 import { contactFaqs } from "@/data/contact";
 import { expertFaqs, expertProfiles } from "@/data/experts";
 import { OfficialNotice } from "@/components/Notice";
-import { cases, faqs, OFFICIAL_NOTICE, programs, services, SITE_URL } from "@/data/site";
+import { cases, faqs, OFFICIAL_NOTICE, programs, services, SITE_NAME, SITE_URL } from "@/data/site";
 import { breadcrumbJson, faqJson, makeMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ section: string }> };
 
 const meta: Record<string, [string, string]> = {
   programs: ["지원사업 찾기", "소상공인의 업종과 사업 단계에 맞는 정부지원사업 분야를 살펴보고 무료 자가진단과 전문가 연결을 신청하세요."],
-  "hope-return": ["희망리턴패키지 신청부터 선정 후 마케팅까지", "희망리턴패키지 지원 대상, 폐업지원, 재취업, 재창업과 신청 준비 절차를 확인하고, 선정 이후 홈페이지·콘텐츠·광고 실행까지 상담받으세요."],
-  "before-selection": ["정부지원사업 선정 전 준비", "공고 확인, 사업 현황 진단, 사업계획서 마케팅 항목과 실행 가능 예산을 차분히 준비하는 방법을 안내합니다."],
-  "after-selection": ["정부지원사업 선정 후 마케팅 실행·수행업체", "정부지원사업에 선정되셨나요? 협약과 집행 항목을 확인하고 홈페이지, 블로그, SNS, 광고, AEO·GEO와 결과보고 자료까지 한 번에 준비하세요."],
-  services: ["정부지원사업 마케팅 서비스", "브랜드 전략, 홈페이지, 블로그, 스마트플레이스, SNS, 숏폼, 광고, AEO·GEO와 결과보고 서비스를 제공합니다."],
-  cases: ["정부지원사업 마케팅 실행 사례", "정부지원사업 선정 후 홈페이지, 콘텐츠, 스마트플레이스, SNS, 광고와 결과보고 자료를 어떻게 실행했는지 프로젝트 사례로 확인하세요."],
-  experts: ["정부지원사업 분야별 전문가 네트워크", "세무·회계·특허·법률·법무·행정·노무·관세까지 사업 단계와 현재 문제에 맞는 전문가 연결 방향을 확인하세요."],
-  insights: ["정부지원사업 실무 자료실 | 신청부터 선정 후 실행까지", "희망리턴패키지, 창업·소상공인 지원사업의 신청 준비부터 선정 후 홈페이지, 콘텐츠, 광고, 증빙과 결과보고까지 실무 정보를 확인하세요."],
-  diagnosis: ["무료 정부지원사업 자가진단 | 나에게 맞는 지원 방향 찾기", "5가지 질문으로 현재 사업 단계와 먼저 확인할 정부지원사업, 필요한 전문가와 선정 후 마케팅 실행 방향을 무료로 확인하세요."],
-  contact: ["정부지원사업·희망리턴패키지 무료 상담 | 거상마케팅센터", "정부지원사업 탐색과 신청 준비부터 선정 후 홈페이지, 콘텐츠, 광고와 결과보고까지 현재 상황에 맞는 1:1 상담을 신청하세요."],
-  about: ["회사 소개", "지원사업 탐색과 선정 이후 마케팅 실행을 연결하는 민간 전문 조직, 거상 정부지원 마케팅센터를 소개합니다."],
-  privacy: ["개인정보처리방침", "거상 정부지원 마케팅센터의 상담 신청 개인정보 수집 및 처리 기준을 안내합니다."],
+  "hope-return": ["희망리턴패키지", "희망리턴패키지 지원 대상, 폐업지원, 재취업, 재창업과 신청 준비 절차를 확인하고, 선정 이후 홈페이지·콘텐츠·광고 실행까지 상담받으세요."],
+  "before-selection": ["선정 전 준비", "공고 확인, 사업 현황 진단, 사업계획서 마케팅 항목과 실행 가능 예산을 차분히 준비하는 방법을 안내합니다."],
+  "after-selection": ["선정 후 실행", "정부지원사업에 선정되셨나요? 협약과 집행 항목을 확인하고 홈페이지, 블로그, SNS, 광고, AEO·GEO와 결과보고 자료까지 한 번에 준비하세요."],
+  services: ["마케팅 서비스", "브랜드 전략, 홈페이지, 블로그, 스마트플레이스, SNS, 숏폼, 광고, AEO·GEO와 결과보고 서비스를 제공합니다."],
+  cases: ["실행 사례", "정부지원사업 선정 후 홈페이지, 콘텐츠, 스마트플레이스, SNS, 광고와 결과보고 자료를 어떻게 실행했는지 프로젝트 사례로 확인하세요."],
+  experts: ["전문가 네트워크", "세무·회계·특허·법률·법무·행정·노무·관세까지 사업 단계와 현재 문제에 맞는 전문가 연결 방향을 확인하세요."],
+  insights: ["자료실", "희망리턴패키지, 창업·소상공인 지원사업의 신청 준비부터 선정 후 홈페이지, 콘텐츠, 광고, 증빙과 결과보고까지 실무 정보를 확인하세요."],
+  diagnosis: ["무료 자가진단", "5가지 질문으로 현재 사업 단계와 먼저 확인할 정부지원사업, 필요한 전문가와 선정 후 마케팅 실행 방향을 무료로 확인하세요."],
+  contact: ["상담 신청", "정부지원사업 탐색과 신청 준비부터 선정 후 홈페이지, 콘텐츠, 광고와 결과보고까지 현재 상황에 맞는 1:1 상담을 신청하세요."],
+  about: ["회사 소개", "지원사업 탐색과 선정 이후 마케팅 실행을 연결하는 민간 전문 조직, 거상 정부지원사업 마케팅센터를 소개합니다."],
+  privacy: ["개인정보처리방침", "거상 정부지원사업 마케팅센터의 상담 신청 개인정보 수집 및 처리 기준을 안내합니다."],
 };
 
 export function generateStaticParams() {
@@ -50,24 +50,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = meta[section];
   if (!entry) return {};
   const metadata = makeMetadata(entry[0], entry[1], `/${section}`);
-  if(section==="contact")return{...metadata,keywords:["정부지원사업 상담","소상공인 정부지원사업 상담","희망리턴패키지 상담","정부지원사업 선정 후 상담","정부지원사업 수행업체","정부지원사업 마케팅 대행","지원금 홈페이지 제작 상담","정부지원사업 견적","소상공인 마케팅 상담","정부지원사업 결과보고 상담"],openGraph:{...metadata.openGraph,images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업·마케팅 1:1 상담"}]},twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]}};
-  if(section==="insights")return{...metadata,keywords:["정부지원사업 정보","2026 정부지원사업","소상공인 정부지원사업","희망리턴패키지","정부지원사업 신청","정부지원사업 사업계획서","정부지원사업 선정 후","정부지원사업 수행업체","지원금 홈페이지 제작","정부지원사업 마케팅","정부지원사업 결과보고"],openGraph:{...metadata.openGraph,type:"website",images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 실무 자료실"}]},twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]}};
-  if (section === "cases") return { ...metadata, keywords:["정부지원사업 실행 사례","정부지원사업 마케팅 사례","희망리턴패키지 수행 사례","정부지원사업 수행업체","소상공인 마케팅 사례","선정 후 마케팅 대행"], openGraph:{...metadata.openGraph,images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 마케팅 실행 사례"}]}, twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]} };
-  if (section === "experts") return { ...metadata, keywords:["정부지원사업 전문가","소상공인 전문가 상담","세무 회계 법률 전문가","특허 노무 관세 전문가","정부지원사업 전문가 연결","선정 후 마케팅 실행"], openGraph:{...metadata.openGraph,images:[{url:"/og.png",width:1536,height:1024,alt:"정부지원사업 분야별 전문가 네트워크"}]}, twitter:{card:"summary_large_image",title:entry[0],description:entry[1],images:["/og.png"]} };
-  if (section === "after-selection") return { ...metadata, keywords: ["정부지원사업 선정 후", "정부지원사업 수행업체", "정부지원사업 마케팅 대행", "지원금 홈페이지 제작", "정부지원사업 결과보고", "희망리턴패키지 수행업체", "정부지원사업 실행업체"], openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "정부지원사업 선정 후 마케팅 실행 상담" }] }, twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] } };
-  if (section !== "hope-return" && section !== "diagnosis") return metadata;
-  if (section === "diagnosis") return {
-    ...metadata,
-    keywords: ["정부지원사업 자가진단", "정부지원사업 대상 확인", "소상공인 지원사업 찾기", "나에게 맞는 정부지원사업", "창업지원사업 찾기", "희망리턴패키지 대상 확인", "소상공인 무료 상담", "정부지원사업 상담", "정부지원사업 선정 후", "정부지원사업 마케팅 대행"],
-    openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "무료 정부지원사업 방향 진단" }] },
-    twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] },
+  const sectionKeywords: Record<string, string[]> = {
+    contact:["정부지원사업 상담","소상공인 정부지원사업 상담","희망리턴패키지 상담","정부지원사업 선정 후 상담","정부지원사업 수행업체","정부지원사업 마케팅 대행","지원금 홈페이지 제작 상담","정부지원사업 견적","소상공인 마케팅 상담","정부지원사업 결과보고 상담"],
+    insights:["정부지원사업 정보","2026 정부지원사업","소상공인 정부지원사업","희망리턴패키지","정부지원사업 신청","정부지원사업 사업계획서","정부지원사업 선정 후","정부지원사업 수행업체","지원금 홈페이지 제작","정부지원사업 마케팅","정부지원사업 결과보고"],
+    cases:["정부지원사업 실행 사례","정부지원사업 마케팅 사례","희망리턴패키지 수행 사례","정부지원사업 수행업체","소상공인 마케팅 사례","선정 후 마케팅 대행"],
+    experts:["정부지원사업 전문가","소상공인 전문가 상담","세무 회계 법률 전문가","특허 노무 관세 전문가","정부지원사업 전문가 연결","선정 후 마케팅 실행"],
+    "after-selection":["정부지원사업 선정 후","정부지원사업 수행업체","정부지원사업 마케팅 대행","지원금 홈페이지 제작","정부지원사업 결과보고","희망리턴패키지 수행업체","정부지원사업 실행업체"],
+    diagnosis:["정부지원사업 자가진단","정부지원사업 대상 확인","소상공인 지원사업 찾기","나에게 맞는 정부지원사업","창업지원사업 찾기","희망리턴패키지 대상 확인","소상공인 무료 상담","정부지원사업 상담","정부지원사업 선정 후","정부지원사업 마케팅 대행"],
+    "hope-return":["희망리턴패키지","희망리턴패키지 신청","희망리턴패키지 지원 대상","희망리턴패키지 폐업지원","희망리턴패키지 재창업","희망리턴패키지 마케팅","희망리턴패키지 수행업체","소상공인 폐업지원","소상공인 재창업 지원","정부지원사업 마케팅 대행"],
   };
-  return {
-    ...metadata,
-    keywords: ["희망리턴패키지", "희망리턴패키지 신청", "희망리턴패키지 지원 대상", "희망리턴패키지 폐업지원", "희망리턴패키지 재창업", "희망리턴패키지 마케팅", "희망리턴패키지 수행업체", "소상공인 폐업지원", "소상공인 재창업 지원", "정부지원사업 마케팅 대행"],
-    openGraph: { ...metadata.openGraph, images: [{ url: "/og.png", width: 1536, height: 1024, alt: "희망리턴패키지 상담을 받는 한국인 소상공인" }] },
-    twitter: { card: "summary_large_image", title: entry[0], description: entry[1], images: ["/og.png"] },
-  };
+  return sectionKeywords[section] ? { ...metadata, keywords: sectionKeywords[section] } : metadata;
 }
 
 function PageHero({ eyebrow, title, description, cta }: { eyebrow: string; title: string; description: string; cta?: [string, string] }) {
@@ -106,18 +98,18 @@ function CasesPage() { return <><PageHero eyebrow="실행 사례" title="성과 
 
 function DiagnosisPage() { return <><PageHero eyebrow="무료 자가진단" title="5가지 질문으로 지금 필요한 방향을 확인하세요" description="진단 결과는 지원 가능 여부를 확정하거나 선정을 보장하는 결과가 아닙니다. 공식 공고와 전문가 확인을 위한 첫 단계입니다." /><Breadcrumb current="무료 자가진단" /><section className="section diagnosis-page"><div className="shell"><DiagnosisWizard /></div></section><OfficialNotice /><FAQ limit={4} /><CTA compact /></> }
 
-function AboutPage() { return <><PageHero eyebrow="회사 소개" title="지원사업 정보와 마케팅 실행 사이의 빈틈을 채웁니다" description="거상 정부지원 마케팅센터는 거상마케팅센터가 운영하는 민간 서비스로, 지원사업 준비와 선정 이후 실행을 연결합니다." cta={["전문가 상담 신청", "/contact"]} /><Breadcrumb current="회사 소개" /><section className="section"><div className="shell about-story"><div><span className="eyebrow">Our Mission</span><h2>선정이 끝이 되지 않도록</h2></div><div><p className="lead">지원사업에 선정되고도 어디에, 어떻게 예산을 써야 고객과 매출로 이어지는지 막막한 소상공인이 많습니다.</p><p>우리는 사업계획서의 목표를 실제 고객 접점으로 번역합니다. 홈페이지와 콘텐츠, 스마트플레이스, SNS, 광고, AEO·GEO를 따로 보지 않고 고객의 발견부터 문의까지 연결합니다.</p><p>선정 가능성이나 매출을 보장하지 않습니다. 대신 합의한 범위와 산출물, 일정과 실행 기록을 투명하게 관리합니다.</p></div></div><div className="shell values-grid"><article><span>01</span><h3>사실에 근거한 안내</h3><p>공식 공고와 협약 기준을 우선하고 과장된 약속을 하지 않습니다.</p></article><article><span>02</span><h3>고객 중심의 실행</h3><p>지원금 소진이 아니라 사업에 남는 고객 접점과 자산을 만듭니다.</p></article><article><span>03</span><h3>과정의 투명성</h3><p>범위, 일정, 산출물과 보고 자료를 처음부터 명확히 관리합니다.</p></article></div></section><FAQ limit={3} /><CTA compact /></> }
+function AboutPage() { return <><PageHero eyebrow="회사 소개" title="지원사업 정보와 마케팅 실행 사이의 빈틈을 채웁니다" description="거상 정부지원사업 마케팅센터는 거상마케팅센터 정부지원사업 전문본부가 운영하는 민간 서비스로, 지원사업 준비와 선정 이후 실행을 연결합니다." cta={["전문가 상담 신청", "/contact"]} /><Breadcrumb current="회사 소개" /><section className="section"><div className="shell about-story"><div><span className="eyebrow">Our Mission</span><h2>선정이 끝이 되지 않도록</h2></div><div><p className="lead">지원사업에 선정되고도 어디에, 어떻게 예산을 써야 고객과 매출로 이어지는지 막막한 소상공인이 많습니다.</p><p>우리는 사업계획서의 목표를 실제 고객 접점으로 번역합니다. 홈페이지와 콘텐츠, 스마트플레이스, SNS, 광고, AEO·GEO를 따로 보지 않고 고객의 발견부터 문의까지 연결합니다.</p><p>선정 가능성이나 매출을 보장하지 않습니다. 대신 합의한 범위와 산출물, 일정과 실행 기록을 투명하게 관리합니다.</p></div></div><div className="shell values-grid"><article><span>01</span><h3>사실에 근거한 안내</h3><p>공식 공고와 협약 기준을 우선하고 과장된 약속을 하지 않습니다.</p></article><article><span>02</span><h3>고객 중심의 실행</h3><p>지원금 소진이 아니라 사업에 남는 고객 접점과 자산을 만듭니다.</p></article><article><span>03</span><h3>과정의 투명성</h3><p>범위, 일정, 산출물과 보고 자료를 처음부터 명확히 관리합니다.</p></article></div></section><FAQ limit={3} /><CTA compact /></> }
 
-function PrivacyPage() { return <><PageHero eyebrow="개인정보처리방침" title="상담을 위해 필요한 정보만 수집합니다" description="거상 정부지원 마케팅센터의 상담 신청 및 서비스 안내 과정에서 처리하는 개인정보 기준입니다." /><Breadcrumb current="개인정보처리방침" /><section className="section"><article className="shell policy"><p className="policy-date">시행일: 2026년 8월 22일</p><h2>1. 수집하는 개인정보</h2><p>이름, 업체명, 연락처, 이메일, 업종, 현재 단계, 지원사업명, 지원금 규모, 필요한 서비스, 집행 기한, 현재 고민을 상담 신청 시 수집할 수 있습니다.</p><h2>2. 이용 목적</h2><p>상담 신청 확인, 서비스 안내, 문의 응대와 상담 품질 관리를 위해 사용합니다.</p><h2>3. 보유 및 이용 기간</h2><p>상담 종료 후 1년까지 보관한 뒤 지체 없이 파기합니다. 다만 관계 법령에 별도 보존 의무가 있는 경우 해당 기간을 따릅니다.</p><h2>4. 제3자 제공 및 처리 위탁</h2><p>법령에 근거가 있거나 사전 동의를 받은 경우를 제외하고 개인정보를 제3자에게 제공하지 않습니다. 상담 접수를 위해 Google Apps Script 등 기술 서비스를 사용할 수 있으며, 실제 연동 시 관련 내용을 본 방침에 반영합니다.</p><h2>5. 정보주체의 권리</h2><p>본인의 개인정보에 대한 열람, 정정, 삭제와 처리 정지를 요청할 수 있습니다.</p><h2>6. 문의</h2><p>개인정보 관련 문의: <a href="mailto:contact@geosang.co.kr">contact@geosang.co.kr</a></p></article></section></> }
+function PrivacyPage() { return <><PageHero eyebrow="개인정보처리방침" title="상담을 위해 필요한 정보만 수집합니다" description="거상 정부지원사업 마케팅센터의 상담 신청 및 서비스 안내 과정에서 처리하는 개인정보 기준입니다." /><Breadcrumb current="개인정보처리방침" /><section className="section"><article className="shell policy"><p className="policy-date">시행일: 2026년 8월 22일</p><h2>1. 수집하는 개인정보</h2><p>이름, 업체명, 연락처, 이메일, 업종, 현재 단계, 지원사업명, 지원금 규모, 필요한 서비스, 집행 기한, 현재 고민을 상담 신청 시 수집할 수 있습니다.</p><h2>2. 이용 목적</h2><p>상담 신청 확인, 서비스 안내, 문의 응대와 상담 품질 관리를 위해 사용합니다.</p><h2>3. 보유 및 이용 기간</h2><p>상담 종료 후 1년까지 보관한 뒤 지체 없이 파기합니다. 다만 관계 법령에 별도 보존 의무가 있는 경우 해당 기간을 따릅니다.</p><h2>4. 제3자 제공 및 처리 위탁</h2><p>법령에 근거가 있거나 사전 동의를 받은 경우를 제외하고 개인정보를 제3자에게 제공하지 않습니다. 상담 접수를 위해 Google Apps Script 등 기술 서비스를 사용할 수 있으며, 실제 연동 시 관련 내용을 본 방침에 반영합니다.</p><h2>5. 정보주체의 권리</h2><p>본인의 개인정보에 대한 열람, 정정, 삭제와 처리 정지를 요청할 수 있습니다.</p><h2>6. 문의</h2><p>개인정보 관련 문의: <a href="mailto:contact@geosang.co.kr">contact@geosang.co.kr</a></p></article></section></> }
 
 export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
   const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<div className="section shell">사례를 불러오는 중입니다.</div>}><EnhancedCasesPage /></Suspense>, experts: <EnhancedExpertsPage />, insights: <Suspense fallback={<div className="section shell">자료를 불러오는 중입니다.</div>}><EnhancedInsightsPage /></Suspense>, diagnosis: <EnhancedDiagnosisPage />, contact: <Suspense fallback={<div className="section shell">상담 화면을 준비하고 있습니다.</div>}><EnhancedContactPage /></Suspense>, about: <AboutPage />, privacy: <PrivacyPage /> };
-  const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:"거상마케팅센터"}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
-  const contactSchema={"@context":"https://schema.org","@type":"ContactPage",name:meta.contact[0],description:meta.contact[1],url:`${SITE_URL}/contact`,mainEntity:{"@type":"Service",name:"정부지원사업·마케팅 1:1 상담",provider:{"@type":"Organization",name:"거상마케팅센터"},areaServed:"KR",serviceType:"정부지원사업 상담 및 선정 후 마케팅 실행 상담"}};
+  const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:SITE_NAME}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
+  const contactSchema={"@context":"https://schema.org","@type":"ContactPage",name:meta.contact[0],description:meta.contact[1],url:`${SITE_URL}/contact`,mainEntity:{"@type":"Service",name:"정부지원사업·마케팅 1:1 상담",provider:{"@type":"Organization",name:SITE_NAME},areaServed:"KR",serviceType:"정부지원사업 상담 및 선정 후 마케팅 실행 상담"}};
   const collectionSchema={"@context":"https://schema.org","@type":"CollectionPage",name:meta.insights[0],description:meta.insights[1],url:`${SITE_URL}/insights`,mainEntity:{"@type":"ItemList",itemListElement:publishedInsights.map((item,index)=>({"@type":"ListItem",position:index+1,url:`${SITE_URL}/insights/${item.slug}`,name:item.title}))}};
-  const expertsSchema=[breadcrumbJson([{name:"홈",path:"/"},{name:"전문가 네트워크",path:"/experts"}]),faqJson(expertFaqs),{"@context":"https://schema.org","@type":"ItemList",name:"분야별 전문가 네트워크",itemListElement:expertProfiles.map((expert,index)=>({"@type":"ListItem",position:index+1,item:{"@type":"Service",name:expert.label,description:expert.summary,provider:{"@type":"Organization",name:"거상마케팅센터"},areaServed:"KR",url:`${SITE_URL}/experts#expert-${expert.slug}`}}))}];
+  const expertsSchema=[breadcrumbJson([{name:"홈",path:"/"},{name:"전문가 네트워크",path:"/experts"}]),faqJson(expertFaqs),{"@context":"https://schema.org","@type":"ItemList",name:"분야별 전문가 네트워크",itemListElement:expertProfiles.map((expert,index)=>({"@type":"ListItem",position:index+1,item:{"@type":"Service",name:expert.label,description:expert.summary,provider:{"@type":"Organization",name:SITE_NAME},areaServed:"KR",url:`${SITE_URL}/experts#expert-${expert.slug}`}}))}];
   return <>{section !== "hope-return" && section !== "diagnosis" && section !== "insights" && section!=="contact" && section!=="experts" && <Schema section={section} title={title} />}{section === "insights"&&<JsonLd data={[breadcrumbJson([{name:"홈",path:"/"},{name:"자료실",path:"/insights"}]),faqJson(insightFaqs),collectionSchema]}/>} {section === "contact"&&<JsonLd data={[breadcrumbJson([{name:"홈",path:"/"},{name:"상담 신청",path:"/contact"}]),faqJson(contactFaqs),contactSchema]}/>} {section === "experts"&&<JsonLd data={expertsSchema}/>} {section === "cases" && <JsonLd data={faqJson(caseFaqs)} />}{section === "after-selection" && <JsonLd data={[faqJson(afterSelectionFaqs), serviceSchema]} />}{pages[section]}</>;
 }

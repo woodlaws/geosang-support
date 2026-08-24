@@ -1,5 +1,7 @@
-export const SITE_NAME = "거상 정부지원 마케팅센터";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://geosang-government-support-center.geosangbruce.chatgpt.site";
+export const SITE_NAME = "거상 정부지원사업 마케팅센터";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://geosang-support.vercel.app";
+export const OFFICIAL_AFFILIATION = "거상마케팅센터 정부지원사업 전문본부";
+export const SITE_DESCRIPTION = "정부지원사업 선정 이후 매출을 만드는 마케팅 실행 전문 조직";
 export const OFFICIAL_NOTICE = "지원 대상, 지원 내용, 신청 기간은 공고에 따라 변경될 수 있으므로 반드시 해당 연도의 공식 공고를 확인하시기 바랍니다.";
 
 export type Program = {
@@ -72,7 +74,7 @@ export const insights: Insight[] = [
 
 export const faqs = [
   { q: "어떤 지원사업을 신청할 수 있나요?", a: "업종, 사업 기간, 현재 경영 상태와 목표에 따라 검토할 사업이 달라집니다. 자가진단 후 공식 공고를 기준으로 적합 가능성을 함께 확인합니다." },
-  { q: "지원사업 선정을 보장하나요?", a: "아닙니다. 선정은 각 사업의 심사 기준과 주관기관 판단에 따르며, 거상 정부지원 마케팅센터는 선정 가능성을 보장하지 않습니다." },
+  { q: "지원사업 선정을 보장하나요?", a: "아닙니다. 선정은 각 사업의 심사 기준과 주관기관 판단에 따르며, 거상 정부지원사업 마케팅센터는 선정 가능성을 보장하지 않습니다." },
   { q: "이미 선정된 후에도 상담할 수 있나요?", a: "네. 협약서와 사업계획서, 예산 항목, 집행 기한을 바탕으로 가능한 마케팅 실행 범위를 정리해드립니다." },
   { q: "마케팅 비용은 어떻게 산정되나요?", a: "필요한 서비스의 범위, 제작 수량, 운영 기간, 산출물과 보고 기준을 확인한 뒤 항목별로 안내합니다." },
   { q: "결과보고 자료도 받을 수 있나요?", a: "계약 범위에 따라 실행 내역, 산출물, 운영 기록 등 결과보고에 필요한 자료를 정리해드립니다. 최종 제출 기준은 해당 사업 지침을 따릅니다." },
