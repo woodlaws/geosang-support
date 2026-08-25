@@ -280,3 +280,146 @@ legend{font-size:var(--font-card-title)!important;line-height:1.35}
   .brand-primary{font-size:20px}
   .contact-form,.contact-wizard,.after-consult-card,.expert-consult-form,.case-consult-form,.diagnosis-card,.advanced-diagnosis-card{padding:20px}
 }
+
+/* Shared section and card system */
+:root{
+  --content-max:1320px;
+  --shell:var(--content-max);
+  --section-space:clamp(80px,7vw,112px);
+  --section-space-tablet:clamp(64px,7vw,88px);
+  --section-space-mobile:clamp(48px,14vw,64px);
+  --section-gap:clamp(34px,4vw,52px);
+  --grid-gap:clamp(24px,2vw,30px);
+  --card-gap:20px;
+  --card-pad:clamp(28px,2.5vw,36px);
+  --card-pad-mobile:22px;
+  --section-base:#fff;
+  --section-soft:#f4f8fd;
+  --section-blue:#edf5ff;
+  --section-line:#dce6f2;
+  --card-bg:#fff;
+  --card-border:#d7e2ef;
+  --card-border-hover:#8bb4ed;
+  --card-radius:18px;
+  --card-shadow:0 8px 24px rgba(25,62,112,.045);
+  --card-shadow-hover:0 14px 32px rgba(25,62,112,.09);
+}
+
+#main{background:var(--section-base)}
+.shell{width:min(var(--content-max),calc(100% - 64px))}
+.section{position:relative;padding-block:var(--section-space);background:var(--section-base)}
+.section-soft{border-block:1px solid var(--section-line);background:var(--section-soft)}
+.section+.section:not(.section-soft){border-top:1px solid #eef2f7}
+.section-heading{max-width:980px;margin-bottom:var(--section-gap)}
+.section-heading.centered{margin-inline:auto}
+.section-heading.split{max-width:none}
+.section-heading>.eyebrow,.section-heading>div>.eyebrow,.experts-heading>.experts-kicker,.experts-heading>span{
+  min-height:32px;padding:6px 12px;border:1px solid #cfe0f6;border-radius:999px;background:#eef5ff;
+}
+.section :where(.eyebrow.light),.final-cta .eyebrow,.after-final .eyebrow,.contact-final .eyebrow,.cases-final .eyebrow,.library-final .eyebrow{
+  border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);
+}
+.section-heading p{max-width:68ch;color:var(--body)}
+
+:where(.card-grid,.program-grid,.service-grid,.case-grid,.expert-grid,.insight-grid,.three-cards,.package-grid,.values-grid,.hope-overview-grid,.situation-grid,.hope-service-grid,.expert-scope-grid,.first-check-grid,.problem-grid,.solution-grid,.reason-grid,.after-package-grid,.execution-service-grid,.deliverable-grid,.scope-grid,.official-guide-grid,.resource-grid,.growth-grid,.expert-network-grid,.new-case-grid,.featured-cases,.featured-library-grid,.compact-insight-row,.all-library-grid,.direction-service-grid,.contact-type-grid,.prep-grid,.scope-columns,.challenge-goal,.detail-strategy,.related-case-row,.case-principles,.problem-buttons,.disclosure-grid){
+  gap:var(--grid-gap);align-items:stretch;
+}
+.process-grid{gap:var(--grid-gap);border:0;background:transparent;box-shadow:none}
+.category-grid{gap:var(--grid-gap);align-items:stretch}
+.category-grid>button{height:100%;padding:var(--card-pad);border:1px solid var(--card-border);border-radius:var(--card-radius);background:#fff;box-shadow:var(--card-shadow);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+
+:where(.program-card,.program-list>article,.service-grid>article,.case-card,.expert-grid>article,.insight-grid>article,.process-grid>article,.three-cards>article,.feature-stack>article,.numbered-list>div>article,.values-grid>article,.package-grid>article,.hope-overview-grid>article,.situation-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.first-check-grid>article,.solution-grid>article,.reason-grid>article,.after-package-grid>article,.execution-service-grid>article,.deliverable-grid>article,.scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.contact-process li,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.detail-strategy>article,.detail-timeline>li,.related-case-row>a,.start-guide-grid>button,.library-card,.growth-grid>article,.expert-network-grid>article,.expert-role-list>details,.problem-grid>button,.new-case-card,.case-principles>div,.disclosure-grid>div,.after-steps>span,.article-section){
+  border-color:var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+:where(.program-card,.program-list>article,.service-grid>article,.case-card,.expert-grid>article,.insight-grid>article,.process-grid>article,.three-cards>article,.feature-stack>article,.numbered-list>div>article,.values-grid>article,.package-grid>article,.hope-overview-grid>article,.situation-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.first-check-grid>article,.solution-grid>article,.reason-grid>article,.after-package-grid>article,.execution-service-grid>article,.deliverable-grid>article,.scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.contact-process li,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.detail-strategy>article,.detail-timeline>li,.related-case-row>a,.start-guide-grid>button,.library-card,.expert-network-grid>article,.expert-role-list>details,.problem-grid>button,.new-case-card,.case-principles>div,.disclosure-grid>div,.after-steps>span,.article-section){
+  background:var(--card-bg);
+}
+:where(.program-card,.program-list>article,.service-grid>article,.expert-grid>article,.process-grid>article,.three-cards>article,.feature-stack>article,.numbered-list>div>article,.values-grid>article,.package-grid>article,.hope-overview-grid>article,.situation-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.first-check-grid>article,.solution-grid>article,.reason-grid>article,.after-package-grid>article,.execution-service-grid>article,.deliverable-grid>article,.scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.contact-process li,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.detail-strategy>article,.related-case-row>a,.case-principles>div,.disclosure-grid>div){
+  padding:var(--card-pad);
+}
+:where(.program-card,.service-grid>article,.case-card,.expert-grid>article,.insight-grid>article,.three-cards>article,.values-grid>article,.package-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.related-case-row>a,.library-card,.expert-network-grid>article,.new-case-card){height:100%}
+
+@media(hover:hover) and (pointer:fine){
+  :where(.program-card,.program-list>article,.service-grid>article,.case-card,.expert-grid>article,.insight-grid>article,.process-grid>article,.three-cards>article,.feature-stack>article,.numbered-list>div>article,.values-grid>article,.package-grid>article,.hope-overview-grid>article,.situation-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.first-check-grid>article,.solution-grid>article,.reason-grid>article,.after-package-grid>article,.execution-service-grid>article,.deliverable-grid>article,.scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.contact-process li,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.detail-strategy>article,.detail-timeline>li,.related-case-row>a,.start-guide-grid>button,.library-card,.growth-grid>article,.expert-network-grid>article,.expert-role-list>details,.problem-grid>button,.new-case-card,.case-principles>div,.disclosure-grid>div):hover{
+    border-color:var(--card-border-hover);box-shadow:var(--card-shadow-hover);transform:translateY(-3px);
+  }
+  .category-grid>button:hover{border-color:var(--card-border-hover);box-shadow:var(--card-shadow-hover);transform:translateY(-3px)}
+}
+
+.program-card,.service-grid>article,.expert-grid>article,.three-cards>article,.values-grid>article,.package-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.related-case-row>a{display:flex;flex-direction:column}
+.case-card,.insight-grid>article,.library-card,.expert-network-grid>article,.new-case-card{display:flex;flex-direction:column}
+.case-card-body,.insight-body,.library-card-body,.expert-network-body,.new-case-body{display:flex;flex:1;flex-direction:column}
+.library-card>a{display:flex;height:100%;flex:1;flex-direction:column}
+:where(.program-card,.service-grid>article,.case-card-body,.insight-body,.hope-service-grid>article,.resource-grid>article,.direction-service-grid>article,.related-case-row>a)>a:last-child,
+.library-card-foot,.case-card-actions{margin-top:auto}
+.service-grid>article p,.insight-body p,.expert-grid>article p,.library-card-body p,.new-case-body>p{color:var(--body)}
+.case-card dl,.program-card dl,.hope-service-grid dl{margin-bottom:24px}
+
+.faq-list,.support-accordion{display:grid;gap:14px;border:0}
+.faq-list details,.support-accordion details,.expert-faq details{
+  overflow:hidden;border:1px solid var(--card-border)!important;border-radius:var(--card-radius);background:#fff;box-shadow:var(--card-shadow);
+}
+.faq-list details:first-child{border-top:1px solid var(--card-border)}
+.faq-list summary,.support-accordion summary,.expert-faq summary{padding:22px 24px}
+.faq-list details p,.support-accordion details>div,.expert-faq details p{padding:0 24px 24px;color:var(--body)}
+.faq-list details[open],.support-accordion details[open],.expert-faq details[open]{border-color:#9dbce6!important;box-shadow:var(--card-shadow-hover)}
+
+:where(.contact-wizard,.contact-form,.after-form,.after-consult-card,.expert-consult-form,.case-consult-form,.advanced-diagnosis-card,.diagnosis-card,.library-filters,.case-search,.newsletter-panel form,.privacy-panel,.detail-overview aside,.result-policy>div:last-child,.article-takeaways,.article-toc){
+  border:1px solid var(--card-border);border-radius:20px;background:#fff;box-shadow:var(--card-shadow);
+}
+.consult-grid,.consult-case-layout,.expert-consult-grid,.quote-layout{align-items:start}
+.contact-form-section,.consult-section,.cases-consult,.expert-consult,.after-quote,.hope-consult{border-block:1px solid rgba(255,255,255,.1)}
+.contact-type-grid>a,.program-list>article{min-height:100%}
+.program-list{display:grid;gap:var(--grid-gap)}
+.program-list>article{align-items:center;border:1px solid var(--card-border)}
+
+.article-page{background:var(--section-soft)}
+.article-main{display:grid;gap:24px}
+.article-section{padding:clamp(28px,3vw,42px);border:1px solid var(--card-border)}
+.article-section+.article-section{margin-top:0}
+.policy{max-width:980px;padding:clamp(30px,4vw,54px);border:1px solid var(--card-border);border-radius:22px;background:#fff;box-shadow:var(--card-shadow)}
+.policy h2{padding-top:22px;border-top:1px solid var(--section-line)}
+.detail-overview aside,.result-policy>div:last-child{padding:var(--card-pad)}
+
+.final-cta,.after-final,.cases-final,.contact-final,.library-final,.experts-final-cta,.detail-consult{
+  position:relative;border-top:1px solid rgba(255,255,255,.16)
+}
+.final-cta-inner{gap:clamp(36px,6vw,80px)}
+.official-notice,.official-inline,.official-disclaimer,.disclosure-note,.secure-files,.report-warning{
+  border:1px solid #cfe0f1;border-left:4px solid var(--green);border-radius:12px;background:#f4f9ff;
+}
+
+@media(max-width:1100px){
+  .section{padding-block:var(--section-space-tablet)}
+  :where(.card-grid,.program-grid,.service-grid,.case-grid,.expert-grid,.insight-grid,.three-cards,.package-grid,.values-grid,.hope-overview-grid,.situation-grid,.hope-service-grid,.expert-scope-grid,.first-check-grid,.problem-grid,.solution-grid,.reason-grid,.after-package-grid,.execution-service-grid,.deliverable-grid,.scope-grid,.official-guide-grid,.resource-grid,.growth-grid,.expert-network-grid,.new-case-grid,.featured-cases,.featured-library-grid,.compact-insight-row,.all-library-grid,.direction-service-grid,.contact-type-grid,.prep-grid,.scope-columns,.challenge-goal,.detail-strategy,.related-case-row,.case-principles,.problem-buttons,.disclosure-grid){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .process-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .program-list>article{grid-template-columns:64px minmax(0,1fr)}
+  .program-list>article>.button{grid-column:2;justify-self:start}
+}
+
+@media(max-width:768px){
+  :root{--grid-gap:18px;--card-gap:16px}
+  .shell{width:min(var(--content-max),calc(100% - 36px))}
+  .section{padding-block:var(--section-space-mobile)}
+  .section-heading{margin-bottom:34px}
+  .section-heading.split{gap:22px}
+  :where(.card-grid,.program-grid,.service-grid,.case-grid,.expert-grid,.insight-grid,.three-cards,.package-grid,.values-grid,.hope-overview-grid,.situation-grid,.hope-service-grid,.expert-scope-grid,.first-check-grid,.problem-grid,.solution-grid,.reason-grid,.after-package-grid,.execution-service-grid,.deliverable-grid,.scope-grid,.official-guide-grid,.resource-grid,.growth-grid,.expert-network-grid,.new-case-grid,.featured-cases,.featured-library-grid,.compact-insight-row,.all-library-grid,.direction-service-grid,.contact-type-grid,.prep-grid,.scope-columns,.challenge-goal,.detail-strategy,.case-principles,.problem-buttons,.disclosure-grid){grid-template-columns:1fr}
+  .process-grid{grid-template-columns:1fr}
+  .category-grid{grid-template-columns:1fr}
+  .category-grid>button{padding:var(--card-pad-mobile)}
+  :where(.program-card,.program-list>article,.service-grid>article,.expert-grid>article,.process-grid>article,.three-cards>article,.feature-stack>article,.numbered-list>div>article,.values-grid>article,.package-grid>article,.hope-overview-grid>article,.situation-grid>article,.hope-service-grid>article,.expert-scope-grid>article,.first-check-grid>article,.solution-grid>article,.reason-grid>article,.after-package-grid>article,.execution-service-grid>article,.deliverable-grid>article,.scope-grid>article,.official-guide-grid>article,.resource-grid>article,.direction-service-grid>article,.contact-type-grid>a,.contact-process li,.prep-grid>article,.scope-columns>article,.challenge-goal>article,.detail-strategy>article,.detail-timeline>li,.related-case-row>a,.case-principles>div,.disclosure-grid>div,.article-section){padding:var(--card-pad-mobile)}
+  .program-list>article{grid-template-columns:1fr}
+  .program-list>article>.button{grid-column:1;width:100%}
+  .faq-list summary,.support-accordion summary,.expert-faq summary{padding:20px}
+  .faq-list details p,.support-accordion details>div,.expert-faq details p{padding:0 20px 22px}
+  .article-main{gap:18px}
+  .article-section{border-radius:18px}
+  .related-case-row{display:grid;overflow:visible}
+  .related-case-row a{min-width:0}
+  .final-cta-inner{padding-block:54px}
+}
+
+@media(max-width:390px){
+  .shell{width:calc(100% - 36px)}
+  .section-heading>.eyebrow,.section-heading>div>.eyebrow{max-width:100%;white-space:normal}
+}
