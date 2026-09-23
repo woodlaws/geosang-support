@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { MobileCTA } from "@/components/MobileCTA";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { OFFICIAL_AFFILIATION, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/data/site";
 import "./globals.css";
 
@@ -33,5 +34,5 @@ const organization = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko"><body><a className="skip-link" href="#main">본문 바로가기</a><JsonLd data={organization} /><Header /><main id="main">{children}</main><Footer /><MobileCTA /></body></html>;
+  return <html lang="ko"><head><GoogleAnalytics /></head><body><a className="skip-link" href="#main">본문 바로가기</a><JsonLd data={organization} /><Header /><main id="main">{children}</main><Footer /><MobileCTA /></body></html>;
 }
