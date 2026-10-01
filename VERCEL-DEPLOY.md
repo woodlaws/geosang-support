@@ -22,8 +22,12 @@ Vercel Project Settings → Environment Variables에서 다음 값을 설정합�
 
 - `NEXT_PUBLIC_SITE_URL`: 실제 운영 도메인. 예: `https://support.geosang.co.kr`
 - `NEXT_PUBLIC_GOOGLE_APPS_SCRIPT_URL`: 상담 폼을 받을 Google Apps Script 웹 앱 URL
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase Project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase publishable/anon key
+- `SUPABASE_SERVICE_ROLE_KEY`: 서버 전용 service role key. 브라우저 코드와 GitHub에 절대 넣지 않습니다.
+- `RATE_LIMIT_SALT`: 상담·다운로드 요청 해시에 사용할 긴 임의 문자열
 
-두 번째 값이 비어 있으면 사이트는 표시되지만 상담 폼의 온라인 접수는 비활성 안내를 표시합니다. 비밀값은 GitHub에 커밋하지 마십시오.
+Supabase 게시판을 사용하려면 먼저 SQL Editor에서 `supabase/migrations/202610010001_board_system.sql`을 실행합니다. Supabase 값이 비어 있으면 공개 사이트와 기존 콘텐츠는 표시되지만 게시판 데이터 저장·로그인은 비활성 안내를 표시합니다. 비밀값은 GitHub에 커밋하지 마십시오.
 
 ## 4. 배포 확인
 

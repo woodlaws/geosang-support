@@ -14,7 +14,7 @@ export function Footer() {
         </div>
         <div>
           <strong>빠른 메뉴</strong>
-          <div className="footer-links"><Link href="/programs">지원사업 찾기</Link><Link href="/diagnosis">무료 자가진단</Link><Link href="/experts">전문가 네트워크</Link><Link href="/contact">상담 신청</Link></div>
+          <div className="footer-links"><Link href="/programs">지원사업 찾기</Link><Link href="/news">지원사업 소식</Link><Link href="/diagnosis">무료 자가진단</Link><Link href="/experts">전문가 네트워크</Link><Link href="/contact">상담 신청</Link><Link href="/portal">고객 전용</Link></div>
         </div>
         <div>
           <strong>안내</strong>
