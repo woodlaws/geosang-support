@@ -26,6 +26,35 @@ import { breadcrumbJson, faqJson, makeMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ section: string }> };
 
+const initialHeroContent = {
+  cases: {
+    className: "cases-hero",
+    gridClassName: "cases-hero-grid",
+    eyebrow: "정부지원사업 마케팅 실행 사례",
+    title: <>지원사업 선정 이후,<br/><em>어떻게 실행했는지</em><br/>보여드립니다</>,
+    description: "고객의 업종과 사업 단계, 지원사업 목적에 맞춰 홈페이지, 콘텐츠, SNS, 광고와 고객 유입 구조를 설계합니다.",
+  },
+  insights: {
+    className: "library-hero",
+    gridClassName: "library-hero-grid",
+    eyebrow: "정부지원사업 실무 자료실",
+    title: <>신청 전부터 <em>선정 후 실행까지</em><br/>필요한 정보를 쉽게 정리했습니다</>,
+    description: "어려운 공고문과 복잡한 지원 절차를 쉽게 풀고, 선정 이후 홈페이지·콘텐츠·광고와 결과보고까지 안내합니다.",
+  },
+  contact: {
+    className: "contact-hero",
+    gridClassName: "contact-hero-grid",
+    eyebrow: "정부지원사업·마케팅 1:1 상담",
+    title: <>현재 상황을 알려주시면<br/><em>다음 실행부터</em> 정리해드립니다</>,
+    description: "지원사업을 처음 알아보는 단계부터 선정 이후 홈페이지·콘텐츠·광고와 결과보고까지 현재 상황에 맞는 상담을 신청할 수 있습니다.",
+  },
+} as const;
+
+function InitialHero({ page }: { page: keyof typeof initialHeroContent }) {
+  const content = initialHeroContent[page];
+  return <section className={content.className}><div className={`shell ${content.gridClassName}`}><div><span className="eyebrow">{content.eyebrow}</span><h1>{content.title}</h1><p>{content.description}</p></div></div></section>;
+}
+
 const meta: Record<string, [string, string]> = {
   programs: ["지원사업 찾기", "소상공인의 업종과 사업 단계에 맞는 정부지원사업 분야를 살펴보고 무료 자가진단과 전문가 연결을 신청하세요."],
   "hope-return": ["희망리턴패키지", "희망리턴패키지 지원 대상, 폐업지원, 재취업, 재창업과 신청 준비 절차를 확인하고, 선정 이후 홈페이지·콘텐츠·광고 실행까지 상담받으세요."],
@@ -106,7 +135,7 @@ export default async function SectionPage({ params }: Props) {
   const { section } = await params;
   if (!meta[section]) notFound();
   const title = meta[section][0];
-  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<div className="section shell">사례를 불러오는 중입니다.</div>}><EnhancedCasesPage /></Suspense>, experts: <EnhancedExpertsPage />, insights: <Suspense fallback={<div className="section shell">자료를 불러오는 중입니다.</div>}><EnhancedInsightsPage /></Suspense>, diagnosis: <EnhancedDiagnosisPage />, contact: <Suspense fallback={<div className="section shell">상담 화면을 준비하고 있습니다.</div>}><EnhancedContactPage /></Suspense>, about: <AboutPage />, privacy: <PrivacyPage /> };
+  const pages: Record<string, React.ReactNode> = { programs: <ProgramsPage />, "hope-return": <EnhancedHopeReturnPage />, "before-selection": <BeforeSelectionPage />, "after-selection": <EnhancedAfterSelectionPage />, services: <ServicesPage />, cases: <Suspense fallback={<InitialHero page="cases" />}><EnhancedCasesPage /></Suspense>, experts: <EnhancedExpertsPage />, insights: <Suspense fallback={<InitialHero page="insights" />}><EnhancedInsightsPage /></Suspense>, diagnosis: <EnhancedDiagnosisPage />, contact: <Suspense fallback={<InitialHero page="contact" />}><EnhancedContactPage /></Suspense>, about: <AboutPage />, privacy: <PrivacyPage /> };
   const serviceSchema = { "@context":"https://schema.org", "@type":"Service", name:"정부지원사업 선정 후 마케팅 실행", provider:{"@type":"Organization",name:SITE_NAME}, areaServed:"KR", serviceType:"정부지원사업 마케팅 수행" };
   const contactSchema={"@context":"https://schema.org","@type":"ContactPage",name:meta.contact[0],description:meta.contact[1],url:`${SITE_URL}/contact`,mainEntity:{"@type":"Service",name:"정부지원사업·마케팅 1:1 상담",provider:{"@type":"Organization",name:SITE_NAME},areaServed:"KR",serviceType:"정부지원사업 상담 및 선정 후 마케팅 실행 상담"}};
   const collectionSchema={"@context":"https://schema.org","@type":"CollectionPage",name:meta.insights[0],description:meta.insights[1],url:`${SITE_URL}/insights`,mainEntity:{"@type":"ItemList",itemListElement:publishedInsights.map((item,index)=>({"@type":"ListItem",position:index+1,url:`${SITE_URL}/insights/${item.slug}`,name:item.title}))}};

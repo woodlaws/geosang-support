@@ -1,5 +1,5 @@
 export const SITE_NAME = "거상 정부지원사업 마케팅센터";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://geosang-support.vercel.app";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.geosangmarketing.kr";
 export const OFFICIAL_AFFILIATION = "거상마케팅센터 정부지원사업 전문본부";
 export const SITE_DESCRIPTION = "정부지원사업 선정 이후 매출을 만드는 마케팅 실행 전문 조직";
 export const OFFICIAL_NOTICE = "지원 대상, 지원 내용, 신청 기간은 공고에 따라 변경될 수 있으므로 반드시 해당 연도의 공식 공고를 확인하시기 바랍니다.";
