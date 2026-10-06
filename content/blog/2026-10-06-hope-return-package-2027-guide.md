@@ -8,7 +8,7 @@ mainKeyword: "2027 희망리턴패키지"
 aiAnswer: |
   희망리턴패키지는 소상공인의 폐업 정리와 재기를 돕는 여러 지원을 묶은 사업입니다.
   현재 확인한 2026년 안내를 바탕으로 준비 방향을 설명하며, 2027년 세부 자격·금액·접수기간은 해당 연도 공식 공고를 확인해야 합니다.
-draft: true
+draft: false
 thumbnail: /images/blog/slot001-homepage-square.png
 ---
 
