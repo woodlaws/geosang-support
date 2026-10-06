@@ -1,33 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import type { BlogCard as BlogCardData } from "@/lib/blog";
 import { BlogCard } from "@/components/BlogCard";
 
 const ALL = "전체";
+const CATEGORY_CHANGED = "blog-category-changed";
+
+function subscribe(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  window.addEventListener(CATEGORY_CHANGED, onChange);
+  return () => {
+    window.removeEventListener("popstate", onChange);
+    window.removeEventListener(CATEGORY_CHANGED, onChange);
+  };
+}
+
+const readCategory = () => new URLSearchParams(window.location.search).get("category") || ALL;
+const serverCategory = () => ALL;
 
 /**
- * 카테고리 필터.
+ * 카테고리 필터. 선택값은 URL 쿼리 하나만 바라본다.
  *
  * `useSearchParams` 를 쓰지 않는다. 그 훅은 정적 프리렌더를 Suspense 폴백으로
- * 떨어뜨려 빌드된 HTML에 글 목록이 빠지고, 검색엔진과 AI 크롤러가 빈 목록을 보게 된다.
- * 대신 기본값 "전체" 로 서버에서 모든 카드를 렌더하고, 마운트 후에 URL 쿼리를 읽어
- * 선택을 복원하고 history 로만 동기화한다.
+ * 떨어뜨려 빌드된 HTML에서 글 목록이 통째로 빠지고, 검색엔진과 AI 크롤러가 빈 목록을
+ * 보게 된다. 대신 URL 을 외부 저장소로 구독해서, 서버 스냅샷은 항상 "전체"(= 모든 카드가
+ * 정적 HTML에 포함)이고 클라이언트에서만 쿼리값을 읽는다.
  */
 export function BlogList({ posts, categories }: { posts: BlogCardData[]; categories: string[] }) {
-  const [selected, setSelected] = useState(ALL);
-
-  useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get("category");
-    if (fromUrl && categories.includes(fromUrl)) setSelected(fromUrl);
-  }, [categories]);
+  const current = useSyncExternalStore(subscribe, readCategory, serverCategory);
+  const selected = categories.includes(current) ? current : ALL;
 
   function select(category: string) {
-    setSelected(category);
     const next = new URLSearchParams(window.location.search);
     if (category === ALL) next.delete("category");
     else next.set("category", category);
     window.history.replaceState(null, "", `${window.location.pathname}${next.size ? `?${next}` : ""}`);
+    window.dispatchEvent(new Event(CATEGORY_CHANGED));
   }
 
   const results = selected === ALL ? posts : posts.filter((post) => post.category === selected);

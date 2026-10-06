@@ -19,10 +19,12 @@ npm run dev          # next dev
 npm run build:next   # next build --webpack  ← Vercel buildCommand
 npm run build        # vinext build (Cloudflare Workers 실험용, 평소 쓰지 않음)
 npm run typecheck    # tsc --noEmit
+npm run lint         # eslint .
 ```
 
-- **ESLint 설정 파일과 `lint` 스크립트가 없다.** `eslint` / `eslint-config-next`는 devDependency로 있지만 flat config(`eslint.config.mjs`)가 없어 현재 린트를 실행할 수 없다.
-- CI(`.github/workflows/ci.yml`)의 검증 = `npm ci` → `npm run typecheck` → `npm run build:next`. 품질 게이트는 **typecheck + build** 두 개로 본다.
+- CI(`.github/workflows/ci.yml`)의 검증 = `npm ci` → `npm run typecheck` → `npm run build:next`. **lint는 CI에 아직 없다.**
+- `eslint.config.mjs`는 `eslint-config-next`의 `core-web-vitals` + `typescript` flat config를 쓴다. 린트를 뒤늦게 켠 탓에, eslint-config-next 16의 React Compiler 규칙(`react-hooks/purity`, `react-hooks/set-state-in-effect`)과 `@next/next/no-html-link-for-pages`에 걸리는 **기존 컴포넌트 4개는 설정 끝의 `preexisting` 블록에 파일 단위로 적어 경고로 낮췄다.** 새 코드에는 error 그대로 적용된다. 해당 파일을 실제로 고치면 목록에서 한 줄씩 지우면 된다.
+- `npm run build:next`를 돌리면 Next가 `next-env.d.ts`에서 `vinext/types/augmentations` 줄을 지운다. **커밋 전에 되돌릴 것** (`git checkout -- next-env.d.ts`).
 - `vercel.json`: `installCommand: npm ci`, `buildCommand: npm run build:next`.
 
 ## 라우팅 구조
@@ -91,7 +93,27 @@ app/
 | `data/insights.ts` | 자료실 글 전체 (`Insight[]`) + 카테고리·단계·유형·업종 목록 + `insightFaqs` |
 | `data/cases.ts` `data/experts.ts` `data/contact.ts` `data/after-selection.ts` `data/board.ts` | 각 페이지 콘텐츠 / 게시판 타입 |
 
-### 2) Supabase 게시판 (`lib/boards.ts`)
+### 2) 블로그 마크다운 (`content/blog/*.md` + `lib/blog.ts`)
+
+**마크다운 파일 1개 = 글 1개.** `lib/blog.ts`가 빌드 시점에 디렉터리를 한 번 읽어 `BlogPost[]`(최신순)을 만든다. 프런트매터는 `yaml` 패키지로 파싱하고 본문은 `marked`(GFM)로 HTML을 만든다. gray-matter는 js-yaml 체인의 merge-key DoS 권고 때문에 쓰지 않는다.
+
+프런트매터 필드:
+
+| 필드 | 필수 | 설명 |
+| --- | --- | --- |
+| `title` `description` `category` `mainKeyword` `aiAnswer` | ✅ | `aiAnswer`는 보통 `\|` 블록으로 2~3문장 |
+| `slug` | ✅ | 영문 소문자·숫자·하이픈만. 라우트 `/blog/<slug>`의 기준이며 파일명보다 우선 |
+| `date` | ✅ | `YYYY-MM-DD` |
+| `updated` | | 없으면 `date`와 같게 처리 |
+| `thumbnail` | | `/images/blog/...` 같은 public 경로. 없으면 카드가 CSS 그라디언트로 대체 |
+| `faq` | | `- q:` / `a:` 목록 (`question`/`answer`도 허용). FAQPage JSON-LD의 원본 |
+| `hub` | | 상위 허브 글의 slug. 사이드바에 "상위 가이드" 링크로 노출 |
+
+필수 항목 누락, 잘못된 날짜 형식, slug 중복은 **파일 이름과 함께 throw** 해서 빌드를 세운다. 조용히 넘어가지 않는다.
+
+목차는 본문 `h2`/`h3`에서 자동 생성된다. 별도 설정이 없고, 표는 `.blog-table-wrap`으로 감싸져 모바일에서 가로 스크롤된다.
+
+### 3) Supabase 게시판 (`lib/boards.ts`)
 
 `posts` 테이블, `kind = "news" | "resource"`. 환경변수가 없으면 `isSupabasePublicConfigured === false` 로 **빈 배열을 반환하고 조용히 넘어간다** → 로컬·CI 빌드가 Supabase 없이도 통과한다. 이 폴백을 깨지 말 것.
 
@@ -117,6 +139,14 @@ app/
   체크리스트 → 공식 출처 → 관련 지원사업 → 관련 글 → 관련 사례 → 작성자 → 면책 안내 → 하단 CTA → 맨위로 버튼 → 모바일 하단 고정 CTA
 - CTA 링크는 `ctaType`(`diagnosis`/`hope`/`expert`/`execution`/`quote`/`report`) → `ctas` 맵으로 결정
 
+## /blog 구현
+
+- 목록 `app/blog/page.tsx`(서버·정적) + `components/BlogList.tsx`(`"use client"`) + `components/BlogCard.tsx`. 카드는 1:1 썸네일 / 카테고리 / 제목 / description / 발행일
+- **`BlogList`는 `useSearchParams`를 쓰지 않는다.** 그 훅은 정적 프리렌더를 Suspense 폴백으로 떨어뜨려 빌드된 HTML에서 글 목록이 통째로 빠진다(`/insights`가 실제로 그 상태다 — `.next/server/app/insights.html`에 카드가 없다). 대신 `useSyncExternalStore`로 URL 쿼리를 외부 저장소처럼 구독해, 서버 스냅샷은 항상 "전체"(모든 카드가 정적 HTML에 포함)이고 클라이언트에서만 `?category=`를 읽는다. **여기를 `useSearchParams`로 바꾸면 블로그의 SEO가 깨진다.**
+- 상세 `app/blog/[slug]/page.tsx` + `components/BlogArticle.tsx`. **클라이언트 JS가 전혀 없다** — 목차는 앵커, FAQ는 `<details>`
+- 상세 렌더 순서: 카테고리·발행일·수정일 → 제목 → 썸네일 → `aiAnswer` 요약 박스 → 목차 → 본문 → FAQ → 같은 카테고리 관련 글 3개 → 면책 → 상담 CTA 박스(문구 고정, `무료 자가진단`·`상담 신청` 버튼) → 모바일 하단 고정 `상담 신청` 바
+- 전역 `MobileCTA`는 `/blog` 이하에서 자기를 숨긴다. 글의 자체 하단 바와 겹치기 때문(전역 바가 z-index가 더 높다)
+
 ## 메뉴·공통 레이아웃
 
 - `app/layout.tsx`: `metadataBase`, title template `%s | ${SITE_NAME}`, OG/twitter 기본값, `alternates.types["application/rss+xml"]`, **`verification.other["naver-site-verification"]`(유지 필수)**, `Organization` JSON-LD, 그리고 `<Header/> <main id="main"> <Footer/> <MobileCTA/>`
@@ -130,8 +160,8 @@ app/
 | --- | --- |
 | `lib/seo.ts` | `makeMetadata(title, description, path)` → title/description/canonical/OG/twitter, `breadcrumbJson(items)`, `faqJson(items)` |
 | `components/JsonLd.tsx` | `<script type="application/ld+json">` 주입 (`<` 이스케이프 포함) |
-| `app/sitemap.ts` | 고정 경로 배열 + `cases` + `publishedInsights` + Supabase news/resource 게시물. `siteWideLastModified` 상수를 쓰는 곳이 있음 |
-| `app/rss.xml/route.ts` | `publishedInsights` 만으로 RSS 2.0 생성. 자체 `esc()` 로 XML 이스케이프, `Cache-Control: public, max-age=3600` |
+| `app/sitemap.ts` | 고정 경로 배열 + `cases` + `publishedInsights` + `blogPosts` + Supabase news/resource 게시물. `siteWideLastModified` 상수를 쓰는 곳이 있음 |
+| `app/rss.xml/route.ts` | `publishedInsights` + `blogPosts` 를 발행일 역순으로 합친 RSS 2.0. 피드는 이것 하나뿐이다. 자체 `esc()` 로 XML 이스케이프, `Cache-Control: public, max-age=3600` |
 | `app/robots.ts` | `*` + GPTBot/OAI-SearchBot/ClaudeBot/Claude-SearchBot/PerplexityBot/Google-Extended 전부 allow, `/api/` 만 disallow |
 | `app/llms.txt/route.ts` | AI 검색용 사이트 안내문. 공개 라우트를 추가하면 여기도 갱신 |
 
