@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import Link from "next/link";
 import type { BlogCard as BlogCardData } from "@/lib/blog";
 import { BlogCard } from "@/components/BlogCard";
 
@@ -78,6 +79,20 @@ export function BlogList({ posts, categories }: { posts: BlogCardData[]; categor
             {results.map((post) => (
               <BlogCard key={post.slug} item={post} />
             ))}
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="library-empty">
+            <span aria-hidden="true">✎</span>
+            <h3>첫 글을 준비하고 있습니다.</h3>
+            <p>정부지원사업 신청 준비와 선정 후 실행에 바로 쓰는 실무 글을 곧 올립니다.</p>
+            <div className="button-row">
+              <Link className="button button-primary" href="/insights">
+                자료실 먼저 보기
+              </Link>
+              <Link className="button button-coral" href="/contact">
+                상담 신청
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="library-empty">
