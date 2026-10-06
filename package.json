@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
+    "marked": "18.1.0",
     "next": "16.2.6",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "yaml": "2.9.1"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
