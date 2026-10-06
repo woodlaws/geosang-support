@@ -23,7 +23,20 @@ const preexisting = {
 };
 
 const config = [
-  { ignores: [".next/**", "out/**", "dist/**", ".wrangler/**", ".vercel/**", "node_modules/**", "next-env.d.ts"] },
+  // 빌드 산출물은 하위 경로까지 전부 제외한다. ".next/**" 만 적으면 최상위만 걸러져서,
+  // .claude/worktrees/<이름>/.next 같은 다른 세션의 빌드 결과가 린트 대상으로 딸려 들어온다.
+  {
+    ignores: [
+      "**/.next/**",
+      "**/node_modules/**",
+      "**/out/**",
+      "**/dist/**",
+      "**/.wrangler/**",
+      "**/.vercel/**",
+      ".claude/**",
+      "next-env.d.ts",
+    ],
+  },
   ...coreWebVitals,
   ...typescript,
   preexisting,
