@@ -95,6 +95,6 @@ export const navItems = [
   ["실행 사례", "/cases"],
   ["전문가 네트워크", "/experts"],
   ["자료실", "/insights"],
-  ["상담 신청", "/contact"],
+  ["블로그", "/blog"],
   ["고객 전용", "/portal"],
 ] as const;

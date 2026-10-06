@@ -35,6 +35,7 @@ export function MobileCTA() {
     };
   }, [pathname]);
 
-  if (hidden || menuOpen || pathname === "/contact") return null;
+  // 블로그 글은 자체 하단 고정 '상담 신청' 바를 쓴다. 둘을 같이 띄우면 겹친다.
+  if (hidden || menuOpen || pathname === "/contact" || pathname.startsWith("/blog")) return null;
   return <div className="mobile-consult-bar"><AfterSelectionCTA location="mobile_sticky" /></div>;
 }
