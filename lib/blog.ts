@@ -21,6 +21,8 @@ export type BlogPost = {
   aiAnswer: string;
   faq: BlogFaq[];
   hub?: string;
+  /** true 면 임시저장. 목록·상세·sitemap·RSS 어디에도 나오지 않는다. */
+  draft: boolean;
   html: string;
   headings: BlogHeading[];
 };
@@ -66,6 +68,21 @@ function date(file: string, data: Record<string, unknown>, key: string, fallback
   const iso = value instanceof Date ? value.toISOString().slice(0, 10) : String(value).trim().slice(0, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) fail(file, `"${key}" 는 YYYY-MM-DD 형식이어야 합니다. (받은 값: ${String(value)})`);
   return iso;
+}
+
+/**
+ * 임시저장 여부. `draft: true` 면 비공개.
+ * 줄이 없거나 `draft: false` 면 공개한다. 오타로 조용히 공개되는 일이 없도록
+ * true/false 로 읽을 수 없는 값은 빌드를 세운다.
+ */
+function isDraft(file: string, data: Record<string, unknown>): boolean {
+  const value = data.draft;
+  if (value === undefined || value === null || value === "") return false;
+  if (typeof value === "boolean") return value;
+  const text = String(value).trim().toLowerCase();
+  if (text === "true") return true;
+  if (text === "false") return false;
+  fail(file, `"draft" 는 true 또는 false 여야 합니다. (받은 값: ${String(value)})`);
 }
 
 function faqList(file: string, data: Record<string, unknown>): BlogFaq[] {
@@ -149,6 +166,7 @@ function loadPosts(): BlogPost[] {
       aiAnswer: text(file, front, "aiAnswer", true),
       faq: faqList(file, front),
       hub: text(file, front, "hub", false),
+      draft: isDraft(file, front),
       html,
       headings,
     } satisfies BlogPost;
@@ -160,8 +178,17 @@ function loadPosts(): BlogPost[] {
   return posts.sort((a, b) => (a.date === b.date ? a.title.localeCompare(b.title, "ko") : b.date.localeCompare(a.date)));
 }
 
-/** 최신순 전체 글. */
-export const blogPosts: BlogPost[] = loadPosts();
+/** 파일에서 읽은 전체 글(임시저장 포함). 공개 화면에서는 쓰지 말 것. */
+const allBlogPosts: BlogPost[] = loadPosts();
+
+/**
+ * 공개된 글만, 최신순.
+ *
+ * 목록·상세·sitemap·RSS·generateStaticParams 가 전부 이 배열 하나를 본다.
+ * 임시저장을 여기서 한 번 걸러내면 어느 경로로도 새어 나가지 않는다.
+ * 새 화면을 만들 때도 allBlogPosts 가 아니라 이걸 쓸 것.
+ */
+export const blogPosts: BlogPost[] = allBlogPosts.filter((post) => !post.draft);
 
 export const toBlogCard = ({ slug, title, description, category, date: published, thumbnail }: BlogPost): BlogCard => ({
   slug,
